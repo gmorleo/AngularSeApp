@@ -19,12 +19,8 @@ export class LoginComponent implements OnInit {
     console.log("click");
     this.authFirebaseService.logInRegular("cosimo@email.it","prova123")
       .then( (res) => {
-        this.router.navigate( ['student']);
+        this.router.navigate( ['secretary']);
       })
       .catch( (err) => console.log('error: ' + err));
-  }
-
-  prova() {
-    this.authFirebaseService.getUser2();
   }
 }

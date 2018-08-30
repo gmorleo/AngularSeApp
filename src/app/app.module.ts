@@ -30,18 +30,22 @@ import {
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LayoutModule} from '@angular/cdk/layout';
-import { StudentHomeComponent } from './components/student/student-home/student-home.component';
 import {FirebaseService} from './services/firebase.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFireAuthModule} from 'angularfire2/auth';
+import {HomeStudentComponent} from './components/student/home-student/home-student.component';
+import { HomeSecretaryComponent } from './components/secretary/home-secretary/home-secretary.component';
+import {ProvaComponent} from './components/common/prova/prova.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NotFoundComponent,
-    StudentHomeComponent
+    HomeStudentComponent,
+    HomeSecretaryComponent,
+    ProvaComponent
   ],
   imports: [
     BrowserModule,

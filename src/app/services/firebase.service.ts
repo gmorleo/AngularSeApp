@@ -31,6 +31,10 @@ export class FirebaseService {
     });
   }
 
+  logOut() {
+    this.afAuth.auth.signOut();
+  }
+
   getCurrentUser(){
     return new Promise<any>((resolve, reject) => {
       var user = firebase.auth().onAuthStateChanged(function(user){

@@ -1,20 +1,43 @@
-<div class="content-login m50">
-  <mat-card class="example-card">
-    <mat-card-header class="form-container">
-    </mat-card-header>
-    <mat-card-content style="padding-top: 30px">
+<mat-sidenav-container class="nav-container m50 login-container">
+  <mat-sidenav #sidenav
+               mode="side"
+               opened="true"
+               class="sidenav"
+               [fixedInViewport]="false">
+    <div class="login-box">
+      <div style="padding-bottom: 40px">
+        <img src="../../../../assets/images/universita-del-salento-260.png" height="126" width="260"/>
+      </div>
+      <div class="mat-title">
+        ACCEDI AL TUO ACCOUNT
+      </div>
       <form class="form-container">
-        <mat-form-field>
-          <input matInput id="email" class="input-element" placeholder="Email" type="email" name="email" required>
+        <mat-form-field class="input-element">
+          <input matInput  placeholder="Email" type="email" name="email" [(ngModel)]="email" required>
         </mat-form-field>
-        <mat-form-field style="padding-top: 15px">
-          <input matInput placeholder="Password" type="password" name="password" required>
+        <mat-form-field class="input-element">
+          <input matInput placeholder="Password" type="password" name="password" [(ngModel)]="password" required>
         </mat-form-field>
       </form>
-    </mat-card-content>
-    <mat-card-actions class="button-container">
-      <button mat-button (click)="login()">Log in</button>
-      <button mat-button (click)="prova()">Prova</button>
-    </mat-card-actions>
-  </mat-card>
+      <div style="padding-top: 30px">
+        <button mat-raised-button class="login-button" (click)="login()">LOGIN</button>
+      </div>
+
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>
+<div class="login-background">
+  <div class="title-container">
+    <div>
+      <img src="../../../../assets/images/logo-backgound-login.gif-1.png" height="150" width="150"/>
+    </div>
+    <div class="mat-title title">
+      Benvenuto nel portale dell'Università!
+    </div>
+    <div class="sub-title">
+      Inserisci le credenziali e autenticati per accedere al portale della tua università.<br>
+      Il portale è utilizzabile da: Professori, Studenti e Segreteria, il sistema indirizzerà ogni utente verso la rispettiva pagina.
+    </div>
+  </div>
 </div>
+

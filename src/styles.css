@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 html, body {
   height: 100%;
   margin: 0;
@@ -6,10 +9,17 @@ html, body {
 
 body { margin: 0; }
 
+.m0 {color:#000 !important; background-color:#FFFFFF !important}
 .m50 {color:#000 !important; background-color:#FAFAFA !important}
+.m51 {color:#000 !important; background-color:#f2f2f2 !important}
+.m52 {color:#000 !important; background-color:#e8e7e7 !important}
+.m53 {color:#000 !important; background-color:#d9d7d7 !important}
+.m54 {color:#000 !important; background-color:#bebebe !important}
+
 .m300 {color:#000 !important; background-color:#F2F2F2 !important}
 .m700 {color:#000 !important; background-color:#f9aa33 !important}
-.m900 {color:#000 !important; background-color:#344955 !important}
+.m720 {color:#000 !important; background-color:#d8952f !important}
+.m900 {color:#000 !important; background-color:#e29b30 !important}
 
 .a50 {color:#000 !important; background-color:#FFF8E1 !important}
 .a100 {color:#000 !important; background-color:#FFECB3 !important}
@@ -578,9 +588,14 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-snack-bar-container{background:#323232;color:#fff}
 .mat-simple-snackbar-action{color:#ff4081}
 
+
+.mat-expansion-panel.mat-expanded {
+  background:rgba(0,0,0,.05) !important;
+}
+
 .mat-expansion-panel-body {
   padding: 0px !important;
-  background:rgba(255,255,255,.50);
+  /*background:rgba(255,255,255,.50);*/
 }
 .mat-expansion-panel-header {
   font-size: 17px;

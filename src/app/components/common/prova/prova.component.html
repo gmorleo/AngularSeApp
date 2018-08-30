@@ -1,0 +1,63 @@
+<mat-sidenav-container class="nav-container m50">
+  <mat-sidenav
+    mode="side"
+    opened
+    class="sidenav m50">
+    <mat-toolbar class="nav-header m700 sidenav-header mat-title">
+
+
+      <img src="../../../../assets/images/universita-del-salento-260-white.png" height="60" width="202"/></mat-toolbar>
+    <mat-accordion>
+      <mat-expansion-panel  style="background:  none; box-shadow: none; padding: 0px; margin: 0px">
+        <mat-expansion-panel-header>
+          <mat-panel-title style="font-weight: unset">
+            Link 1
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list class="sidebar-link-group" style="margin-top: 0px; list-style-type: none;">
+          <li [routerLinkActive]="['active-link']"><a mat-list-item routerLink="" role="button" class="mat-title">Link 3</a></li>
+          <li [routerLinkActive]="['active-link']"><a mat-list-item routerLink="" role="button">Link 3</a></li>
+        </mat-nav-list>
+
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <mat-expansion-panel  style="background:  none; box-shadow: none; padding: 0px; margin: 0px">
+        <mat-expansion-panel-header>
+          <mat-panel-title style="font-weight: unset">
+            Link 2
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list class="sidebar-link-group" style="margin-top: 0px; list-style-type: none;">
+          <li [routerLinkActive]="['active-link']"><a mat-list-item routerLink="admin" role="button">Admin</a></li>
+          <li [routerLinkActive]="['active-link']"><a mat-list-item routerLink="" role="button">Link 3</a></li>
+        </mat-nav-list>
+
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+      <mat-expansion-panel  style="background:  none; box-shadow: none; padding: 0px; margin: 0px">
+        <mat-expansion-panel-header>
+          <mat-panel-title style="font-weight: unset">
+            Link 3
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list class="sidebar-link-group" style="margin-top: 0px; list-style-type: none;">
+          <li [routerLinkActive]="['active-link']"><a mat-list-item routerLink="prova2" role="button">Prova 2</a></li>
+          <li [routerLinkActive]="['active-link']"><a mat-list-item routerLink="contenuto" role="button">Prova Contenuto</a></li>
+        </mat-nav-list>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="nav-header m0 sidenav-content-header" style="padding-left: 0px">
+      <!-- This fills the remaining space of the current row -->
+      <span class="fill-remaining-space"></span>
+
+      <button mat-button><mat-icon>settings</mat-icon>Impostazioni</button>
+      <button mat-button (click)="logOut()"><mat-icon>power_settings_new</mat-icon>Log out</button>
+    </mat-toolbar>
+
+    <mat-toolbar class="nav-footer m54"></mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
