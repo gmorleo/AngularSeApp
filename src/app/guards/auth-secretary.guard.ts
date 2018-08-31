@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import {FirebaseService} from '../services/firebase.service';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {UserRestService} from '../services/user-rest.service';
+import {Value} from '../../Variable';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthSecretaryGuard implements CanActivate {
 
-  constructor(private router: Router, private authFirebaseService: FirebaseService, private userRestService: UserRestService) {
+  userType: number;
+
+  constructor(private router: Router, private authFirebaseService: FirebaseService) {
 
   }
 
@@ -20,8 +22,13 @@ export class AuthGuard implements CanActivate {
     return new Promise((resolve, reject) => {
       this.authFirebaseService.getCurrentUser()
         .then(user => {
-          console.log(user);
-          return resolve(true);
+          console.log(localStorage.getItem('user'));
+          this.userType = parseInt(localStorage.getItem('user'));
+          if ( this.userType == Value.secretary ) {
+            return resolve(true);
+          } else {
+            return resolve(false);
+          }
         }, err => {
           this.router.navigate(['/login']);
           return resolve(false);

@@ -1,0 +1,74 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.nav-container {
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.sidenav {
+  padding-top: 20px;
+  width: 250px;
+  box-shadow: 3px 0 6px rgba(0,0,0,.24);
+}
+
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  color: #FFFFFF;
+  box-shadow: 3px 1px 6px rgba(0,0,0,.24);
+  background-image: url("../../../../assets/images/pattern-login-back2.png");
+}
+
+.nav-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.nav-content {
+  padding: 20px;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.active-link {
+  border-left: 7px solid #f9aa33;
+  background-color: #edc994;
+  transition:.3s all linear;
+}
+
+.sidebar-link-group li {
+  padding-left: 15px
+}
+
+.mat-list, .mat-nav-list, .mat-selection-list {
+  padding-top: 0px;
+  display: block;
+}
+
+.table {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  width: 250px;
+}
+
+.cell {
+  flex-direction: row;
+}

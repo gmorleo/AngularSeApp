@@ -5,10 +5,14 @@ import {NotFoundComponent} from '../../components/common/not-found/not-found.com
 import {AuthGuard} from '../../guards/auth.guard';
 import {HomeStudentComponent} from '../../components/student/home-student/home-student.component';
 import {HomeSecretaryComponent} from '../../components/secretary/home-secretary/home-secretary.component';
+import {AuthSecretaryGuard} from '../../guards/auth-secretary.guard';
+import {HomeProfessorComponent} from '../../components/professor/home-professor/home-professor.component';
+import {AuthProfessorGuard} from '../../guards/auth-professor.guard';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'secretary', component: HomeSecretaryComponent, canActivate: [AuthGuard]},
+  {path: 'secretary', component: HomeSecretaryComponent, canActivate: [AuthSecretaryGuard]},
+  {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard]},
   {path: '', component: LoginComponent},
   {path: '**', component: NotFoundComponent }
 ]

@@ -10,7 +10,6 @@ export class UserRestService {
   apiStudentUrl = `${ServerUrl.url}/student`;
 
   constructor(public http: HttpClient) {
-    console.log('User-Rest');
   }
 
   getUserByUid(uid: String) {
@@ -22,5 +21,6 @@ export class UserRestService {
       })
     })
   }
+
 
 }

@@ -5,6 +5,8 @@ import UserCredential = firebase.auth.UserCredential;
 import {User} from 'firebase';
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
+import {UserRestService} from './user-rest.service';
+import {promise} from 'selenium-webdriver';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class FirebaseService {
   constructor(private afAuth: AngularFireAuth) {
   }
 
-  public logInRegular(email: string, password: string) {
+  public logInRegular(email: string, password: string): Promise<void | UserCredential> {
 
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .catch(function(error) {
@@ -35,7 +37,7 @@ export class FirebaseService {
     this.afAuth.auth.signOut();
   }
 
-  getCurrentUser(){
+/*  getCurrentUser(){
     return new Promise<any>((resolve, reject) => {
       var user = firebase.auth().onAuthStateChanged(function(user){
         if (user) {
@@ -46,6 +48,19 @@ export class FirebaseService {
         }
       })
     })
+  }*/
+
+  getCurrentUser(){
+    return new Promise<any>((resolve, reject) => {
+      var user = firebase.auth().onAuthStateChanged(function(user){
+        if (user) {
+          resolve(user);
+        } else {
+          reject('No user logged in');
+        }
+      })
+    })
   }
+
 
 }

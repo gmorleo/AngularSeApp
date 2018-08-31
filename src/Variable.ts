@@ -5,6 +5,7 @@ export const ServerUrl = {
 
 export const Value = {
   student:1,
+  secretary:2,
   professor:3,
   public:0,
   private:1,

@@ -37,6 +37,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {HomeStudentComponent} from './components/student/home-student/home-student.component';
 import { HomeSecretaryComponent } from './components/secretary/home-secretary/home-secretary.component';
 import {ProvaComponent} from './components/common/prova/prova.component';
+import { HomeProfessorComponent } from './components/professor/home-professor/home-professor.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {ProvaComponent} from './components/common/prova/prova.component';
     NotFoundComponent,
     HomeStudentComponent,
     HomeSecretaryComponent,
-    ProvaComponent
+    ProvaComponent,
+    HomeProfessorComponent
   ],
   imports: [
     BrowserModule,

@@ -3,11 +3,11 @@ import {FirebaseService} from '../../../services/firebase.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-home-secretary',
-  templateUrl: './home-secretary.component.html',
-  styleUrls: ['./home-secretary.component.css']
+  selector: 'app-home-professor',
+  templateUrl: './home-professor.component.html',
+  styleUrls: ['./home-professor.component.css']
 })
-export class HomeSecretaryComponent implements OnInit {
+export class HomeProfessorComponent implements OnInit {
 
   constructor(private router: Router, private authFirebaseService: FirebaseService) { }
 
