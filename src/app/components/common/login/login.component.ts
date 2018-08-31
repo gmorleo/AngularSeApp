@@ -9,6 +9,9 @@ import {FirebaseService} from '../../../services/firebase.service';
 })
 export class LoginComponent implements OnInit {
 
+  uname: string;
+  password: string;
+
   constructor(private router: Router, private authFirebaseService: FirebaseService) { }
 
   ngOnInit() {
@@ -16,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     event.preventDefault();
-    console.log("click");
-    this.authFirebaseService.logInRegular("cosimo@email.it","prova123")
+    console.log(this.uname+" "+this.password);
+    this.authFirebaseService.logInRegular(this.uname,this.password)
       .then( (res) => {
         this.router.navigate( ['secretary']);
       })
