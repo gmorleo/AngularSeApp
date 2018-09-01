@@ -114,8 +114,8 @@ body { margin: 0; }
 .mat-button,.mat-fab,.mat-flat-button,.mat-icon-button,.mat-mini-fab,.mat-raised-button,.mat-stroked-button{font-family:Roboto,"Helvetica Neue",sans-serif;font-size:14px;font-weight:500}
 .mat-button-toggle{font-family:Roboto,"Helvetica Neue",sans-serif}
 .mat-card{font-family:Roboto,"Helvetica Neue",sans-serif}
-.mat-card-title{font-size:24px;font-weight:400}
-.mat-card-content,.mat-card-header .mat-card-title,.mat-card-subtitle{font-size:14px}
+.mat-card-title{font-size:20px; font-weight: normal; line-height: 1.4 !important; letter-spacing: -0.1px !important}
+.mat-card-content,.mat-card-header,.mat-card-subtitle{font-size:15px; font-weight: 500}
 .mat-checkbox{font-family:Roboto,"Helvetica Neue",sans-serif}
 .mat-checkbox-layout .mat-checkbox-label{line-height:24px}
 .mat-chip{font-size:13px;line-height:18px}
@@ -604,7 +604,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   transition:.3s all linear;
 }
 
-/*.mat-grid-tile .mat-figure {
+.mat-grid-tile .mat-figure {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
   justify-content: left !important;
@@ -618,8 +618,69 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   width: 230px;
   padding: 50px 40px 20px 40px;
   font-size: 13px;
-}*/
+}
 
 .mat-icon {
   padding-right: 5px;
+}
+
+.mat-divider-horizontal {
+  width: 98% !important;
+}
+
+.mat-card>.mat-card-actions:last-child {
+  padding-bottom: 10px !important;
+}
+
+.mat-card-actions {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-right: 0px !important;
+  text-align: right;
+}
+
+.mright {
+  margin-right: 15px !important;
+}
+
+.title {
+  font-size: 25px;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-weight: 400;
+  color: #666;
+  padding: 10px;
+}
+
+.container {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  overflow: visible;
+  display: flex;
+  padding: 5px;
+  width: 100%;
+}
+
+.content {
+  width: inherit;
+}
+
+.row {
+  display: flex;
+  line-height: 25px;
+  padding: 5px;
+  border-top: solid 1px #e0e0e0;
+}
+
+.header-row {
+  display: flex;
+  line-height: 30px;
+  padding: 5px;
+  padding-top: 22px;
+  color: #666;
+
+}
+
+.cell {
+  flex-direction: row;
+  padding: 10px;
 }

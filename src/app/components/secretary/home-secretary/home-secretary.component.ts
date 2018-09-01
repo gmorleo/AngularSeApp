@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FirebaseService} from '../../../services/firebase.service';
 import {Router} from '@angular/router';
+import {User} from '../../../models/user';
 
 @Component({
   selector: 'app-home-secretary',
@@ -9,7 +10,11 @@ import {Router} from '@angular/router';
 })
 export class HomeSecretaryComponent implements OnInit {
 
-  constructor(private router: Router, private authFirebaseService: FirebaseService) { }
+  user: User = {} as User;
+
+  constructor(private router: Router, private authFirebaseService: FirebaseService) {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
 
   ngOnInit() {
   }
@@ -18,6 +23,10 @@ export class HomeSecretaryComponent implements OnInit {
     this.authFirebaseService.logOut();
     this.router.navigate(["login"]);
     localStorage.removeItem('user');
+  }
+
+  goToHomePage() {
+    this.router.navigate(["secretary/home"]);
   }
 
 }

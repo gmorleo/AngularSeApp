@@ -38,6 +38,8 @@ import {HomeStudentComponent} from './components/student/home-student/home-stude
 import { HomeSecretaryComponent } from './components/secretary/home-secretary/home-secretary.component';
 import {ProvaComponent} from './components/common/prova/prova.component';
 import { HomeProfessorComponent } from './components/professor/home-professor/home-professor.component';
+import { HomeDatailsComponent } from './components/common/home-datails/home-datails.component';
+import {CourseComponent, newCourseDialog} from './components/secretary/course/course.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,10 @@ import { HomeProfessorComponent } from './components/professor/home-professor/ho
     HomeStudentComponent,
     HomeSecretaryComponent,
     ProvaComponent,
-    HomeProfessorComponent
+    HomeProfessorComponent,
+    HomeDatailsComponent,
+    CourseComponent,
+    newCourseDialog
   ],
   imports: [
     BrowserModule,

@@ -4,11 +4,11 @@ import {User} from '../../../models/user';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-prova',
-  templateUrl: './prova.component.html',
-  styleUrls: ['./prova.component.css']
+  selector: 'app-home-datails',
+  templateUrl: './home-datails.component.html',
+  styleUrls: ['./home-datails.component.css']
 })
-export class ProvaComponent implements OnInit {
+export class HomeDatailsComponent implements OnInit {
 
   user: User = {} as User;
 
@@ -18,5 +18,6 @@ export class ProvaComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }

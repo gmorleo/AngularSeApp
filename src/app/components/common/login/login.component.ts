@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
           console.log(res.user.uid);
           this.getUserType(res.user.uid);
         }
-        this.router.navigate( ['secretary']);
       })
       .catch( (err) => console.log('error: ' + err));
   }
@@ -41,8 +40,8 @@ export class LoginComponent implements OnInit {
       .then( data => {
         this.user = data;
         console.log(data);
-        localStorage.setItem( 'user', JSON.stringify(this.user.userType));
-        console.log(localStorage.getItem('user'));
+        localStorage.setItem( 'userType', JSON.stringify(this.user.userType));
+        localStorage.setItem( 'user', JSON.stringify(this.user));
         if ( this.user.userType == Value.professor) {
           this.router.navigate(['professor'])
         } else {

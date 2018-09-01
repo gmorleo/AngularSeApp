@@ -5,21 +5,19 @@ import {HttpClient} from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class UserRestService {
-  apiUserUrl = `${ServerUrl.url}/user`;
+export class CourseRestService {
+  apiUserUrl = `${ServerUrl.url}/course`;
 
   constructor(public http: HttpClient) {
   }
 
-  getUserByUid(uid: String) {
-    return new Promise( resolve => {
-      this.http.get(this.apiUserUrl+"/getByUid/"+uid).subscribe(data =>{
+  getAll() {
+    return new Promise(resolve => {
+      this.http.get(this.apiUserUrl + "/getAll").subscribe(data => {
         resolve(data);
-      }, err =>{
+      }, err => {
         console.log(err)
       })
     })
   }
-
-
 }

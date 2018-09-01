@@ -8,11 +8,21 @@ import {HomeSecretaryComponent} from '../../components/secretary/home-secretary/
 import {AuthSecretaryGuard} from '../../guards/auth-secretary.guard';
 import {HomeProfessorComponent} from '../../components/professor/home-professor/home-professor.component';
 import {AuthProfessorGuard} from '../../guards/auth-professor.guard';
+import {HomeDatailsComponent} from '../../components/common/home-datails/home-datails.component';
+import {CourseComponent} from '../../components/secretary/course/course.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'secretary', component: HomeSecretaryComponent, canActivate: [AuthSecretaryGuard]},
-  {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard]},
+  {path: 'secretary', component: HomeSecretaryComponent, canActivate: [AuthSecretaryGuard],
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: 'home', component: HomeDatailsComponent},
+      {path: 'course', component: CourseComponent}
+    ]},
+  {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard],
+    children: [
+      {path: 'professor/home', component: HomeDatailsComponent}
+    ]},
   {path: '', component: LoginComponent},
   {path: '**', component: NotFoundComponent }
 ]

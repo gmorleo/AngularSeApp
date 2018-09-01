@@ -22,8 +22,8 @@ export class AuthSecretaryGuard implements CanActivate {
     return new Promise((resolve, reject) => {
       this.authFirebaseService.getCurrentUser()
         .then(user => {
-          console.log(localStorage.getItem('user'));
-          this.userType = parseInt(localStorage.getItem('user'));
+          console.log(localStorage.getItem('userType'));
+          this.userType = parseInt(localStorage.getItem('userType'));
           if ( this.userType == Value.secretary ) {
             return resolve(true);
           } else {
