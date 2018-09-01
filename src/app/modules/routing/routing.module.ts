@@ -10,6 +10,7 @@ import {HomeProfessorComponent} from '../../components/professor/home-professor/
 import {AuthProfessorGuard} from '../../guards/auth-professor.guard';
 import {HomeDatailsComponent} from '../../components/common/home-datails/home-datails.component';
 import {CourseComponent} from '../../components/secretary/course/course.component';
+import {ProfessorComponent} from '../../components/secretary/professor/professor.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: HomeDatailsComponent},
-      {path: 'course', component: CourseComponent}
+      {path: 'course', component: CourseComponent},
+      {path: 'professors-management', component: ProfessorComponent}
     ]},
   {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard],
     children: [

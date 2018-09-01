@@ -17,10 +17,19 @@ export class LoginComponent implements OnInit {
   password: string;
   uid: string;
   user: User = {} as User;
+  userType: number;
 
   constructor(private router: Router, private authFirebaseService: FirebaseService, private userRestService: UserRestService) { }
 
   ngOnInit() {
+    this.userType = parseInt(JSON.parse(localStorage.getItem('userType')));
+    console.log(this.userType);
+    if (this.userType == 2) {
+      this.router.navigate(['secretary']);
+    }
+    if (this.userType == 3) {
+      this.router.navigate(['professor']);
+    }
   }
 
   login() {

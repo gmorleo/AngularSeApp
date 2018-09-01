@@ -37,19 +37,6 @@ export class FirebaseService {
     this.afAuth.auth.signOut();
   }
 
-/*  getCurrentUser(){
-    return new Promise<any>((resolve, reject) => {
-      var user = firebase.auth().onAuthStateChanged(function(user){
-        if (user) {
-          console.log("User firebase");
-          resolve(user);
-        } else {
-          reject('No user logged in');
-        }
-      })
-    })
-  }*/
-
   getCurrentUser(){
     return new Promise<any>((resolve, reject) => {
       var user = firebase.auth().onAuthStateChanged(function(user){
@@ -60,6 +47,16 @@ export class FirebaseService {
         }
       })
     })
+  }
+
+  public registerNewUser(email: string, password: string) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(error);
+      });
   }
 
 

@@ -1,0 +1,28 @@
+<div style="max-width: 600px">
+  <h2 class="title">Inserisci i dati del nuovo professore:</h2>
+
+  <mat-dialog-content>
+
+    <mat-form-field class="full-lenght">
+      <input matInput placeholder="Nome" type="text" [(ngModel)]="newProfessor.name">
+    </mat-form-field>
+    <mat-form-field class="full-lenght">
+      <input matInput placeholder="Cognome" type="text" [(ngModel)]="newProfessor.surname" required>
+    </mat-form-field>
+    <mat-form-field class="full-lenght">
+      <input matInput placeholder="Email" type="number" [(ngModel)]="newProfessor.email" required>
+    </mat-form-field>
+    <mat-form-field class="full-lenght">
+      <input matInput placeholder="Password" type="number" [(ngModel)]="newProfessor.password" required>
+    </mat-form-field>
+    <mat-form-field class="full-lenght">
+      <input matInput placeholder="Età" type="text" [(ngModel)]="newProfessor.age" required>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">ANNULLA</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">SALVA</button>
+  </mat-dialog-actions>
+</div>

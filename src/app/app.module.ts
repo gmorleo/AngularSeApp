@@ -8,25 +8,41 @@ import {HttpClientModule} from '@angular/common/http';
 import {RoutingModule} from './modules/routing/routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
-  MatExpansionModule,
-  MatFormFieldModule,
+  MatExpansionModule, MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatNativeDateModule,
   MatPaginatorModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
   MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
   MatSortModule,
+  MatStepperModule,
   MatTableModule,
+  MatTabsModule,
   MatToolbarModule,
-  MatTreeModule
+  MatTooltipModule,
+  MatTreeModule,
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LayoutModule} from '@angular/cdk/layout';
@@ -39,7 +55,12 @@ import { HomeSecretaryComponent } from './components/secretary/home-secretary/ho
 import {ProvaComponent} from './components/common/prova/prova.component';
 import { HomeProfessorComponent } from './components/professor/home-professor/home-professor.component';
 import { HomeDatailsComponent } from './components/common/home-datails/home-datails.component';
-import {CourseComponent, newCourseDialog} from './components/secretary/course/course.component';
+import {CourseComponent} from './components/secretary/course/course.component';
+import { NewCourseDialogComponent } from './components/secretary/new-course-dialog/new-course-dialog.component';
+import {CdkTreeModule} from '@angular/cdk/tree';
+import {CdkTableModule} from '@angular/cdk/table';
+import { ProfessorComponent } from './components/secretary/professor/professor.component';
+import { NewProfessorDialogComponent } from './components/secretary/new-professor-dialog/new-professor-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,38 +73,62 @@ import {CourseComponent, newCourseDialog} from './components/secretary/course/co
     HomeProfessorComponent,
     HomeDatailsComponent,
     CourseComponent,
-    newCourseDialog
+    NewCourseDialogComponent,
+    ProfessorComponent,
+    NewProfessorDialogComponent
   ],
   imports: [
+    CdkTableModule,
+    CdkTreeModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatTreeModule,
+    MatFormFieldModule,
+
     BrowserModule,
     RoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
+
     FormsModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
     ReactiveFormsModule,
-    MatGridListModule,
-    MatMenuModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatDividerModule,
-    MatTreeModule,
-    MatExpansionModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
+  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
 })

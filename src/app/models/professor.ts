@@ -5,6 +5,7 @@ export interface Professor {
   name?: string;
   surname?: string;
   email?: string;
+  password?: string;
   age?: number;
   uid?: string;
   userType?: number;
