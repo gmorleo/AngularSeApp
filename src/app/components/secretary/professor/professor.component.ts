@@ -14,6 +14,11 @@ export class ProfessorComponent implements OnInit {
   professors: Professor[] = [];
   headers: string[] = ['Id', 'Nome', 'Cognome', 'Email', 'Età'];
 
+  defSort: Sort = {
+    direction: 'asc',
+    active: 'idProfessor'
+  }
+
   constructor(private professorRestService: ProfessorRestService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -23,6 +28,7 @@ export class ProfessorComponent implements OnInit {
   getAllProfessor() {
     this.professorRestService.getAll().subscribe( data => {
       this.professors = data.slice();
+      this.sortData(this.defSort);
     }, err => {
       console.log(err)
     })
@@ -42,7 +48,6 @@ export class ProfessorComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    console.log(sort);
     const data = this.professors.slice();
     if (!sort.active || sort.direction === '') {
       this.professors = data;
