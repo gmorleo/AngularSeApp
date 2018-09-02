@@ -75,6 +75,10 @@ export class NewStudentDialogComponent implements OnInit {
       surname: new FormControl(''),
 /*      email: new FormControl('emailControl', [Validators.required, Validators.pattern(EMAIL_REGEX)]),
       password: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(25)])*/
+      age: new FormControl(''),
+      matricola: new FormControl(''),
+      year: new FormControl(''),
+      yearStart: new FormControl(''),
     });
 
     this.insertFormGroup.registerControl('email', this.emailFormControl = new FormControl('',

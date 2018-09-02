@@ -35,6 +35,22 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-form-field class="full-lenght">
+        <input matInput formControlName="age" placeholder="Età" type="number" [(ngModel)]="newStudent.age" required>
+      </mat-form-field>
+
+      <mat-form-field class="full-lenght">
+        <input matInput formControlName="matricola" placeholder="Matricola" type="number" [(ngModel)]="newStudent.matricola" required>
+      </mat-form-field>
+
+      <mat-form-field class="full-lenght">
+        <input matInput formControlName="year" placeholder="Anno di corso" type="number" [(ngModel)]="newStudent.year" required>
+      </mat-form-field>
+
+      <mat-form-field class="full-lenght">
+        <input matInput formControlName="yearStart" placeholder="Anno di inizio" type="number" [(ngModel)]="newStudent.yearStart" required>
+      </mat-form-field>
+
     </form>
   </mat-dialog-content>
 
