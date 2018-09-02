@@ -1,0 +1,49 @@
+<p>
+<div>
+  <div class="title">Studenti</div>
+  <div class="container">
+    <div class="content">
+
+
+      <mat-card class="card" *ngFor="let c of courses">
+          <mat-card-header>
+            <mat-card-title>Elenco Studenti del corso di {{c.name}}</mat-card-title>
+          </mat-card-header>
+          <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+          <mat-card-content>
+
+            <table matSort (matSortChange)="sortData($event)" class="full-lenght">
+                <tr class="header-row">
+                  <th mat-sort-header="idUser" style="width: 8%">{{headers[0]}}</th>
+                  <th mat-sort-header="name" style="width: 15%">{{headers[1]}}</th>
+                  <th mat-sort-header="surname" style="width: 15%">{{headers[2]}}</th>
+                  <th mat-sort-header="email"style="width: 25%">{{headers[3]}}</th>
+                  <th mat-sort-header="age"style="width: 7%">{{headers[4]}}</th>
+                  <th mat-sort-header="matricola"style="width: 10%">{{headers[5]}}</th>
+                  <th mat-sort-header="year"style="width: 10%">{{headers[6]}}</th>
+                  <th mat-sort-header="yearStart"style="width: 10%">{{headers[7]}}</th>
+
+                </tr>
+              <div *ngFor="let item of students" class="full-lenght">
+                <div *ngIf="c.id == item.idCourse" class="row">
+                    <td style="width: 8%">{{item.idUser}}</td>
+                    <td style="width: 15%">{{item.name}}</td>
+                    <td style="width: 15%">{{item.surname}}</td>
+                    <td style="width: 25%">{{item.email}}</td>
+                    <td style="width: 7%">{{item.age}}</td>
+                    <td style="width: 10%">{{item.matricola}}</td>
+                    <td style="width: 10%">{{item.year}}</td>
+                    <td style="width: 10%">{{item.yearStart}}</td>
+                </div>
+              </div>
+            </table>
+
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button class="mright">RIMUOVI</button>
+            <button mat-raised-button (click)="openNewStudentDialog(c.id)">AGGIUNGI</button>
+          </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

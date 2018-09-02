@@ -16,7 +16,7 @@ export class ProfessorComponent implements OnInit {
 
   defSort: Sort = {
     direction: 'asc',
-    active: 'idProfessor'
+    active: 'idUser'
   }
 
   constructor(private professorRestService: ProfessorRestService, public dialog: MatDialog) { }

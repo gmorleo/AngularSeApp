@@ -61,6 +61,8 @@ import {CdkTreeModule} from '@angular/cdk/tree';
 import {CdkTableModule} from '@angular/cdk/table';
 import { ProfessorComponent } from './components/secretary/professor/professor.component';
 import { NewProfessorDialogComponent } from './components/secretary/new-professor-dialog/new-professor-dialog.component';
+import { StudentManagementComponent } from './components/secretary/student-management/student-management.component';
+import { NewStudentDialogComponent } from './components/secretary/new-student-dialog/new-student-dialog.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import { NewProfessorDialogComponent } from './components/secretary/new-professo
     CourseComponent,
     NewCourseDialogComponent,
     ProfessorComponent,
-    NewProfessorDialogComponent
+    NewProfessorDialogComponent,
+    StudentManagementComponent,
+    NewStudentDialogComponent
   ],
   imports: [
     CdkTableModule,
@@ -128,7 +132,7 @@ import { NewProfessorDialogComponent } from './components/secretary/new-professo
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent],
+  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent, NewStudentDialogComponent],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
 })

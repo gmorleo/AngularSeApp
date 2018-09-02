@@ -10,15 +10,21 @@
       <input matInput placeholder="Cognome" type="text" [(ngModel)]="newProfessor.surname" required>
     </mat-form-field>
     <mat-form-field class="full-lenght">
-      <input matInput placeholder="Email" type="number" [(ngModel)]="newProfessor.email" required>
+      <input matInput placeholder="Email" type="text" [(ngModel)]="newProfessor.email" required>
     </mat-form-field>
     <mat-form-field class="full-lenght">
-      <input matInput placeholder="Password" type="number" [(ngModel)]="newProfessor.password" required>
+      <input matInput placeholder="Password" type="text" [(ngModel)]="newProfessor.password" required>
     </mat-form-field>
     <mat-form-field class="full-lenght">
-      <input matInput placeholder="Età" type="text" [(ngModel)]="newProfessor.age" required>
+      <input matInput placeholder="Età" type="number" [(ngModel)]="newProfessor.age" required>
     </mat-form-field>
-
+    <mat-form-field class="full-lenght">
+      <mat-select placeholder="Corso di studi" [(value)]="idCourse">
+        <mat-option *ngFor="let item of courses" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions>

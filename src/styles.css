@@ -696,3 +696,22 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-sort-header-container {
   align-items: center;
 }
+
+.dialog-check {
+  width: 400px;
+  height: 400px;
+  display: flex;
+}
+
+.img-dialog-check {
+  margin: auto;
+}
+
+.title-dialog-check {
+  font-size: 25px;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-weight: 400;
+  color: #666;
+  text-align: center;
+  padding: 0 10px 10px 10px;
+}

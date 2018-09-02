@@ -26,8 +26,9 @@ export class ProfessorRestService {
       "password": professor.password,
       "email": professor.email,
       "age": professor.age,
-      "Uid": professor.uid,
-      "userType":professor.userType
+      "uid": professor.uid,
+      "userType":professor.userType,
+      "course": professor.course
     });
     return request;
   }
