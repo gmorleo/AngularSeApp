@@ -1,27 +1,35 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Professor} from '../../../models/professor';
 import {NewProfessorDialogComponent} from '../new-professor-dialog/new-professor-dialog.component';
 import {FirebaseService} from '../../../services/firebase.service';
-import {Course} from '../../../models/course';
-import {CourseRestService} from '../../../services/course-rest.service';
-import {ProfessorRestService} from '../../../services/professor-rest.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Student} from '../../../models/student';
 import {StudentRestService} from '../../../services/student-rest.service';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EMAIL_REGEX} from '../../../../Variable';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-new-student-dialog',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({opacity: 0}),
+          animate('1500ms', style({opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({transform: 'translateX(0)', opacity: 1}),
+          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
+        ])
+      ]
+    )
+  ],
   templateUrl: './new-student-dialog.component.html',
   styleUrls: ['./new-student-dialog.component.css']
 })
 export class NewStudentDialogComponent implements OnInit {
 
-  //Controlli validità campi
   public insertFormGroup: FormGroup;
-  emailFormControl: AbstractControl;
-  passwordFormControl: AbstractControl;
 
   newStudent: Student = {} as Student;
   idCourse: number;
@@ -29,9 +37,8 @@ export class NewStudentDialogComponent implements OnInit {
   response: number = 2;
 
 
-  constructor(private studentRestService: StudentRestService, private fireBaseService: FirebaseService, private dialogRef: MatDialogRef<NewProfessorDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
+  constructor(private studentRestService: StudentRestService, private fireBaseService: FirebaseService, private fb: FormBuilder, private dialogRef: MatDialogRef<NewProfessorDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
     this.idCourse = data.id;
-    console.log(this.idCourse);
   }
 
   ngOnInit() {
@@ -43,7 +50,8 @@ export class NewStudentDialogComponent implements OnInit {
   }
 
   save() {
-    console.log(this.newStudent);
+    this.response = 0;
+/*    console.log(this.newStudent);
     console.log(this.idCourse);
     this.fireBaseService.registerNewUser(this.newStudent.email, this.newStudent.password).then(res => {
       if (res) {
@@ -52,7 +60,7 @@ export class NewStudentDialogComponent implements OnInit {
         this.newStudent.idCourse = this.idCourse;
         this.registerNewStudent(this.newStudent);
       }
-    });
+    });*/
   }
 
   registerNewStudent(student: Student) {
@@ -70,28 +78,16 @@ export class NewStudentDialogComponent implements OnInit {
   }
 
   private _initInsertFormGroupBuilder() {
-    this.insertFormGroup = new FormGroup({
-      name: new FormControl(''),
-      surname: new FormControl(''),
-/*      email: new FormControl('emailControl', [Validators.required, Validators.pattern(EMAIL_REGEX)]),
-      password: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(25)])*/
-      age: new FormControl(''),
-      matricola: new FormControl(''),
-      year: new FormControl(''),
-      yearStart: new FormControl(''),
-    });
-
-    this.insertFormGroup.registerControl('email', this.emailFormControl = new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern(EMAIL_REGEX)
-      ]));
-    this.insertFormGroup.registerControl('password', this.passwordFormControl = new FormControl('',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(25),
-      ]));
+      this.insertFormGroup = this.fb.group({
+      'name' : [null, Validators.required],
+      'surname': false,
+      'email' : [null, Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)])],
+      'password' : [null, Validators.compose([Validators.minLength(6), Validators.maxLength(25)])],
+      'age' :false,
+      'matricola' :false,
+      'year' :false,
+      'yearStart' :false
+    })
   }
 }
 /*    */

@@ -1,10 +1,7 @@
 <div style="max-width: 600px">
   <h2 class="title" *ngIf="response == 2">Inserisci i dati del nuovo studente:</h2>
 
-
-
-
-  <mat-dialog-content *ngIf="response == 2">
+  <mat-dialog-content *ngIf="response == 2" [@leaveAnimation]>
     <form [formGroup]="insertFormGroup">
 
       <mat-form-field class="full-lenght">
@@ -17,20 +14,17 @@
 
       <mat-form-field class="full-lenght">
         <input matInput formControlName="email" placeholder="Email" type="text" [(ngModel)]="newStudent.email" required>
-        <mat-error *ngIf="emailFormControl.hasError('required')">
-          E-mail is required
-        </mat-error>
-        <mat-error *ngIf="emailFormControl.hasError('pattern')">
+        <mat-error *ngIf="insertFormGroup.controls['email'].hasError('pattern')">
           Please enter a valid e-mail address
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-lenght">
         <input matInput formControlName="password" placeholder="Password" type="password" [(ngModel)]="newStudent.password" required >
-        <mat-error *ngIf="passwordFormControl.hasError('minlength')">
+        <mat-error *ngIf="insertFormGroup.controls['password'].hasError('minlength')">
           The password must be at least 6 characters long.
         </mat-error>
-        <mat-error *ngIf="passwordFormControl.hasError('maxlength')">
+        <mat-error *ngIf="insertFormGroup.controls['password'].hasError('maxlength')">
           The password must not exceed 25 characters
         </mat-error>
       </mat-form-field>
@@ -54,68 +48,7 @@
     </form>
   </mat-dialog-content>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--  <mat-dialog-content *ngIf="response == 2">
-    <form [formGroup]="insertFormGroup">
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="name" placeholder="Nome" type="text" [(ngModel)]="newStudent.name">
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="surname" placeholder="Cognome" type="text" [(ngModel)]="newStudent.surname" required>
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="email" placeholder="Email" type="text" [(ngModel)]="newStudent.email" required>
-        <mat-error *ngIf="emailFormControl.hasError('required')">
-          E-mail is required
-        </mat-error>
-        <mat-error *ngIf="emailFormControl.hasError('pattern')">
-          Please enter a valid e-mail address
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="password" placeholder="Password" type="password" [(ngModel)]="newStudent.password" required >
-        <mat-error *ngIf="passwordFormControl.hasError('minlength')">
-          The password must be at least 6 characters long.
-        </mat-error>
-        <mat-error *ngIf="passwordFormControl.hasError('maxlength')">
-          The password must not exceed 25 characters
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="age" placeholder="Età" type="number" [(ngModel)]="newStudent.age" required>
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="matricola" placeholder="Matricola" type="number" [(ngModel)]="newStudent.matricola" required>
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="year" placeholder="Anno di corso" type="number" [(ngModel)]="newStudent.year" required>
-      </mat-form-field>
-      <mat-form-field class="full-lenght">
-        <input matInput formControlName="yearStart" placeholder="Anno di inizio" type="number" [(ngModel)]="newStudent.yearStart" required>
-      </mat-form-field>
-    </form>
-  </mat-dialog-content>-->
-
-  <mat-dialog-content *ngIf="response == 0">
+  <mat-dialog-content *ngIf="response == 0" [@enterAnimation]>
     <div class="title-dialog-check">
       Studente inserito corretamente!
     </div>
@@ -124,7 +57,7 @@
     </div>
   </mat-dialog-content>
 
-  <mat-dialog-content *ngIf="response == 1">
+  <mat-dialog-content *ngIf="response == 1" [@enterAnimation]>
     <div class="title-dialog-check">
       Si è verificato un errore, si prega di riprovare!
     </div>
@@ -135,6 +68,6 @@
 
   <mat-dialog-actions>
     <button class="mat-raised-button"(click)="close()">Chiudi</button>
-    <button class="mat-raised-button mat-primary"(click)="save()" *ngIf="response==2" [disabled]="!newStudent.name || !newStudent.surname || !newStudent.email || !newStudent.password || !newStudent.age || !newStudent.matricola || !newStudent.year || !newStudent.yearStart || !(response == 2)">SALVA</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" *ngIf="response==2" [disabled]="!insertFormGroup.valid || !(response == 2)">SALVA</button>
   </mat-dialog-actions>
 </div>
