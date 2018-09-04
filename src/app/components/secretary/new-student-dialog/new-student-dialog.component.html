@@ -2,9 +2,35 @@
   <h2 class="title" *ngIf="response == 2">Inserisci i dati del nuovo studente:</h2>
 
   <mat-dialog-content *ngIf="response == 2" [@leaveAnimation]>
-    <form [formGroup]="insertFormGroup">
+    <form [formGroup]="insertFormGroup" >
 
-      <mat-form-field class="full-lenght">
+      <mat-form-field class="full-lenght" *ngFor="let element of config" >
+        <input matInput [formControlName]="element.name" [placeholder]="element.placeholder" [type]="element.type">
+      </mat-form-field>
+
+<!--      <mat-form-field class="full-lenght" *ngFor="let i of valueLenght" >
+        <input matInput formControlName="{{valueName[i]}}" placeholder="{{headers[i]}}" type="{{valueType[i]}}">
+      </mat-form-field>-->
+
+<!--      <div *ngFor="let i of valueLenght">
+        <mat-form-field class="full-lenght" >
+          <input matInput formControlName="{{valueName[i]}}" placeholder="{{headers[i]}}" type="{{valueType[i]}}">
+        </mat-form-field>
+        <div *ngIf="valueName[i] == 'email'">
+          <mat-error *ngIf="insertFormGroup.controls[valueName[i]].hasError('pattern')">
+            Please enter a valid e-mail address
+          </mat-error>
+        </div>
+        <mat-error *ngIf="insertFormGroup.controls[valueName[i]].hasError('minlength') && valueName[i] == 'password'">
+          The password must be at least 6 characters long.
+        </mat-error>
+        <mat-error *ngIf="insertFormGroup.controls[valueName[i]].hasError('maxlength') && valueName[i] == 'password'">
+          The password must not exceed 25 characters
+        </mat-error>
+      </div>-->
+
+
+<!--      <mat-form-field class="full-lenght">
         <input matInput formControlName="name" placeholder="Nome" type="text" [(ngModel)]="newStudent.name">
       </mat-form-field>
 
@@ -43,7 +69,7 @@
 
       <mat-form-field class="full-lenght">
         <input matInput formControlName="yearStart" placeholder="Anno di inizio" type="number" [(ngModel)]="newStudent.yearStart" required>
-      </mat-form-field>
+      </mat-form-field>-->
 
     </form>
   </mat-dialog-content>

@@ -1,0 +1,14 @@
+<div style="max-width: 600px">
+  <h2 class="title">{{title}}</h2>
+  <form [formGroup]="insertFormGroup" >
+
+    <mat-form-field class="full-lenght" *ngFor="let element of config" >
+      <input matInput [formControlName]="element.name" [placeholder]="element.placeholder" [type]="element.type">
+    </mat-form-field>
+
+  </form>
+  <mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Chiudi</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!insertFormGroup.valid">SALVA</button>
+  </mat-dialog-actions>
+</div>

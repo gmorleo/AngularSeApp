@@ -6,6 +6,7 @@ import {CourseRestService} from '../../../services/course-rest.service';
 import {Course} from '../../../models/course';
 import {NewProfessorDialogComponent} from '../new-professor-dialog/new-professor-dialog.component';
 import {NewStudentDialogComponent} from '../new-student-dialog/new-student-dialog.component';
+import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
 
 @Component({
   selector: 'app-student-management',
@@ -51,11 +52,10 @@ export class StudentManagementComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      id: idCourse
+      id: idCourse,
+      title: 'Inserisci nuovo studente',
     };
-
-
-    const dialogRef = this.dialog.open(NewStudentDialogComponent,dialogConfig);
+    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
     dialogRef.afterClosed().subscribe( res => {
       console.log(res);
       this.getAllStudent();
