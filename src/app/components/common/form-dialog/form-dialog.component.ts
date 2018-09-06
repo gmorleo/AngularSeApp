@@ -1,11 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {NewProfessorDialogComponent} from '../../secretary/new-professor-dialog/new-professor-dialog.component';
-
-export interface DialogValue {
-
-}
+import {Student} from '../../../models/student';
+import {Professor} from '../../../models/professor';
+import {reduce} from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-dialog',
@@ -16,34 +14,16 @@ export class FormDialogComponent implements OnInit {
 
   public insertFormGroup: FormGroup;
   title: string = '';
-  config = [
-    {
-      type: 'text',
-      name: 'name',
-      placeholder: 'Nome',
-    },
-    {
-      type: 'text',
-      name: 'surname',
-      placeholder: 'Cognome',
-    },
-    {
-      type: 'text',
-      name: 'email',
-      placeholder: 'Email',
-    },
-    {
-      type: 'password',
-      name: 'password',
-      placeholder: 'Password',
-    }
-  ];
+  config = [];
+  result = [];
+  new: any;
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<FormDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
     this.title = data.title;
-    console.log(this.title)
+    this.config = data.element;
+    this.new = data.new;
   }
 
   ngOnInit() {
@@ -52,16 +32,26 @@ export class FormDialogComponent implements OnInit {
 
   createGroup() {
     const group = this.fb.group({});
-    this.config.forEach(control => group.addControl(control.name, this.fb.control(null)));
+    this.config.forEach(control => group.addControl(control.name, this.fb.control(null, control.validators)));
     return group;
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   save() {
-    this.dialogRef.close();
+/*    for (var i = 0; i <= (this.config.length - 1); i++){
+      this.result.push(this.insertFormGroup.get(this.config[i].name).value)
+    }
+    console.log(this.result);*/
+    this.dialogRef.close(this.insertFormGroup);
   }
+}
 
+export function objectFactory(prop: string, value: string) {
+  let data: any = {};
+  data[prop] = "";
+/*  data[prop].value = value;*/
+  return data;
 }

@@ -61,11 +61,11 @@ import {CdkTreeModule} from '@angular/cdk/tree';
 import {CdkTableModule} from '@angular/cdk/table';
 import { ProfessorComponent } from './components/secretary/professor/professor.component';
 import { NewProfessorDialogComponent } from './components/secretary/new-professor-dialog/new-professor-dialog.component';
-import { StudentManagementComponent } from './components/secretary/student-management/student-management.component';
-import { NewStudentDialogComponent } from './components/secretary/new-student-dialog/new-student-dialog.component';
+import { StudentManagementComponent} from './components/secretary/student-management/student-management.component';
 import { InputFieldComponent } from './components/elements/input-field/input-field.component';
 import { FormInputComponent } from './components/elements/form-input/form-input.component';
 import { FormDialogComponent } from './components/common/form-dialog/form-dialog.component';
+import { ResponseDialogComponent } from './components/common/response-dialog/response-dialog.component';
 
 @NgModule({
   declarations: [
@@ -82,10 +82,10 @@ import { FormDialogComponent } from './components/common/form-dialog/form-dialog
     ProfessorComponent,
     NewProfessorDialogComponent,
     StudentManagementComponent,
-    NewStudentDialogComponent,
     InputFieldComponent,
     FormInputComponent,
-    FormDialogComponent
+    FormDialogComponent,
+    ResponseDialogComponent
   ],
   imports: [
     CdkTableModule,
@@ -138,7 +138,7 @@ import { FormDialogComponent } from './components/common/form-dialog/form-dialog
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent, NewStudentDialogComponent, FormDialogComponent],
+  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent, FormDialogComponent, ResponseDialogComponent],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
 })

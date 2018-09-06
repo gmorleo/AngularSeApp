@@ -1,0 +1,16 @@
+<div style="max-width: 600px">
+  <mat-dialog-content>
+    <div class="title-dialog-check">
+      {{title}}
+    </div>
+    <div class="dialog-check" *ngIf="response == 0">
+    <img class="img-dialog-check" src="../../../../assets/images/check-mark.png" height="300" width="300"/>
+    </div>
+    <div class="dialog-check"  *ngIf="response == 1">
+      <img class="img-dialog-check" src="../../../../assets/images/error.png" height="300" width="300"/>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">CHIUDI</button>
+  </mat-dialog-actions>
+</div>

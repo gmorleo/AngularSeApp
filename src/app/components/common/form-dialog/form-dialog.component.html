@@ -1,14 +1,33 @@
 <div style="max-width: 600px">
   <h2 class="title">{{title}}</h2>
   <form [formGroup]="insertFormGroup" >
-
-    <mat-form-field class="full-lenght" *ngFor="let element of config" >
-      <input matInput [formControlName]="element.name" [placeholder]="element.placeholder" [type]="element.type">
+    <mat-form-field class="full-lenght" *ngFor="let element of config">
+      <input matInput [formControlName]="element.name" [placeholder]="element.placeholder" [type]="element.type" *ngIf="!(element.type == 'select')">
+      <mat-select [formControlName]="element.name" [placeholder]="element.placeholder" *ngIf="element.type == 'select'">
+        <mat-option *ngFor="let s of element.options" [value]="s">
+          {{s}}
+        </mat-option>
+      </mat-select>
+      <mat-error [style.display]="insertFormGroup.controls[element.name].hasError('pattern')? 'inline' : 'none'">
+        Inserire un indirizzo email valido
+      </mat-error>
+      <mat-error [style.display]="insertFormGroup.controls[element.name].hasError('minlength')? 'inline' : 'none'" *ngIf="element.name == 'matricola'">
+        La matricola deve essere formata da 8 numeri
+      </mat-error>
+      <mat-error [style.display]="insertFormGroup.controls[element.name].hasError('maxlength')? 'inline' : 'none'" *ngIf="element.name == 'matricola'">
+        La matricola deve essere formata da 8 numeri
+      </mat-error>
+      <mat-error [style.display]="insertFormGroup.controls[element.name].hasError('minlength')? 'inline' : 'none'" *ngIf="element.name == 'password'">
+        La password deve avere almeno 6 caratteri
+      </mat-error>
+      <mat-error [style.display]="insertFormGroup.controls[element.name].hasError('maxlength')? 'inline' : 'none'" *ngIf="element.name == 'password'">
+        La password non può superare i 25 caratteri
+      </mat-error>
     </mat-form-field>
 
   </form>
   <mat-dialog-actions>
-    <button class="mat-raised-button"(click)="close()">Chiudi</button>
+    <button class="mat-raised-button"(click)="close()">CHIUDI</button>
     <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="!insertFormGroup.valid">SALVA</button>
   </mat-dialog-actions>
 </div>
