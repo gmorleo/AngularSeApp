@@ -1,0 +1,51 @@
+.card {
+  margin-bottom: 30px;
+}
+.card-content{
+  display: flex;
+}
+.card-header{
+  display: flex;
+}
+.card-title {
+  height: 100%;
+  padding-right: 60px;
+  padding-top: 10px;
+}
+
+.card-title-select {
+  width: 300px;
+}
+
+.agend{
+  margin-left: 15px;
+  width: 100%;
+}
+
+.agend-row{
+  display: table-row;
+}
+
+.agend-content{
+  height: 40px;
+  width: 70%;
+}
+.agend-header{
+  height: 40px;
+  width: 20%;
+  background-color: #f9aa33;
+  color: #FAFAFA;
+}
+
+agend-button {
+  user-select: none !important;
+  cursor: pointer !important;
+}
+
+.mat-grid-tile:hover {
+  background:rgba(219,147,40,.5) !important;
+}
+
+.agend-title{
+  padding: 20px 10px 0 0;
+}

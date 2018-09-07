@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {SuccessDialogComponent} from '../success-dialog/success-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
@@ -12,7 +11,7 @@ export class ResponseDialogComponent implements OnInit {
   title:string;
   response: number;
 
-  constructor(private dialogRef: MatDialogRef<SuccessDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
+  constructor(private dialogRef: MatDialogRef<ResponseDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
     this.title = data.title;
     this.response = data.response;
   }

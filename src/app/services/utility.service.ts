@@ -23,6 +23,7 @@ export class UtilityService {
         case 'email': return compare(a.email, b.email, isAsc);
         case 'age': return compare(a.age, b.age, isAsc);
         case 'idUser': return compare(a.idUser, b.idUser, isAsc);
+        case 'id': return compare(a.id, b.id, isAsc);
         case 'idProfessor': return compare(a.idProfessor, b.idProfessor, isAsc);
         default: return element;
       }

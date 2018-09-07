@@ -1,0 +1,44 @@
+<div>
+  <div class="title">Aule</div>
+  <div class="container">
+    <div class="content">
+
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Elenco aule presenti</mat-card-title>
+        </mat-card-header>
+        <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+        <mat-card-content>
+
+          <table matSort (matSortChange)="sortData($event)" class="full-lenght">
+            <tr class="header-row">
+              <th mat-sort-header="id" style="width: 10%">{{headers[0]}}</th>
+              <th mat-sort-header="name" style="width: 15%">{{headers[1]}}</th>
+              <th mat-sort-header="location" style="width: 15%">{{headers[2]}}</th>
+              <th mat-sort-header="capacity" style="width: 10%">{{headers[3]}}</th>
+              <th mat-sort-header="latitude"style="width: 25%">{{headers[4]}}</th>
+              <th mat-sort-header="longitude"style="width: 25%">{{headers[5]}}</th>
+
+            </tr>
+            <div *ngFor="let item of rooms" class="full-lenght">
+              <div class="row">
+                <td style="width: 10%">{{item.id}}</td>
+                <td style="width: 15%">{{item.name}}</td>
+                <td style="width: 15%">{{item.location}}</td>
+                <td style="width: 10%">{{item.capacity}}</td>
+                <td style="width: 25%">{{item.latitude}}</td>
+                <td style="width: 25%">{{item.longitude}}</td>
+              </div>
+            </div>
+          </table>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button class="mright">RIMUOVI</button>
+          <button mat-raised-button (click)="openNewRoomDialog()">AGGIUNGI</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

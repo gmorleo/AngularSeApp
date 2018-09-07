@@ -1,0 +1,37 @@
+<div>
+  <div class="title">Lezioni</div>
+  <div class="container">
+    <div class="content">
+      <mat-card class="card">
+        <mat-card-header class="card-header">
+          <mat-card-title class="card-title">Orario del corso di</mat-card-title>
+          <mat-form-field class="card-title-select">
+            <mat-select [(ngModel)]="selected">
+              <mat-option *ngFor="let c of courses" [value]="c.id">{{c.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <mat-divider style="    margin: 0 10px 0 10px"></mat-divider>
+        <mat-card-content class="card-content">
+          <div>
+            <mat-calendar [selected]="selectedDate" (selectedChange)="dateChange($event)" style="width: 800px"></mat-calendar>
+          </div>
+          <div class="agend">
+            <mat-card-title class="agend-title">{{displayDate}}</mat-card-title>
+            <mat-grid-list cols="4" rowHeight="60px">
+                <mat-grid-tile style="user-select: none; cursor: pointer"
+                  *ngFor="let tile of tiles"
+                  [colspan]="tile.cols"
+                  [rowspan]="tile.rows"
+                  [style.background]="tile.color"
+                  (click)="openLessonDialog(tile)"
+                  type="button">
+                    {{tile.text}}
+                </mat-grid-tile>
+            </mat-grid-list>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

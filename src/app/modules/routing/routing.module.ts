@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from '../../components/common/login/login.component';
 import {NotFoundComponent} from '../../components/common/not-found/not-found.component';
-import {AuthGuard} from '../../guards/auth.guard';
-import {HomeStudentComponent} from '../../components/student/home-student/home-student.component';
 import {HomeSecretaryComponent} from '../../components/secretary/home-secretary/home-secretary.component';
 import {AuthSecretaryGuard} from '../../guards/auth-secretary.guard';
 import {HomeProfessorComponent} from '../../components/professor/home-professor/home-professor.component';
@@ -12,6 +10,9 @@ import {HomeDatailsComponent} from '../../components/common/home-datails/home-da
 import {CourseComponent} from '../../components/secretary/course/course.component';
 import {ProfessorComponent} from '../../components/secretary/professor/professor.component';
 import {StudentManagementComponent} from '../../components/secretary/student-management/student-management.component';
+import {RoomManagementComponent} from '../../components/secretary/room-management/room-management.component';
+import {TeachingManagementComponent} from '../../components/secretary/teaching-management/teaching-management.component';
+import {LessonManagementComponent} from '../../components/secretary/lesson-management/lesson-management.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -19,9 +20,12 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: HomeDatailsComponent},
-      {path: 'course', component: CourseComponent},
+      {path: 'course-management', component: CourseComponent},
+      {path: 'teaching-management', component: TeachingManagementComponent},
       {path: 'professor-management', component: ProfessorComponent},
-      {path: 'student-management', component: StudentManagementComponent}
+      {path: 'student-management', component: StudentManagementComponent},
+      {path: 'room-management', component: RoomManagementComponent},
+      {path: 'lesson-management', component: LessonManagementComponent}
     ]},
   {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard],
     children: [

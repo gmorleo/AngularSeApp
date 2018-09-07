@@ -32,7 +32,11 @@ export class ProfessorComponent implements OnInit {
     active: 'idUser'
   }
 
-  constructor(private utilityService: UtilityService, private firebaseService: FirebaseService, private professorRestService: ProfessorRestService, private courseRestService: CourseRestService, public dialog: MatDialog) { }
+  constructor(private utilityService: UtilityService,
+              private firebaseService: FirebaseService,
+              private professorRestService: ProfessorRestService,
+              private courseRestService: CourseRestService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getAllProfessor();

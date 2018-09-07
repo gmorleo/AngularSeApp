@@ -32,7 +32,9 @@ export class FormDialogComponent implements OnInit {
 
   createGroup() {
     const group = this.fb.group({});
-    this.config.forEach(control => group.addControl(control.name, this.fb.control(null, control.validators)));
+    this.config.forEach(control => {
+      group.addControl(control.name, this.fb.control(control.value, control.validators));
+    });
     return group;
   }
 

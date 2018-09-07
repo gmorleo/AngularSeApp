@@ -665,6 +665,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   width: 100%;
 }
 
+.table {
+  display: table;
+}
+
 .content {
   width: inherit;
 }
@@ -714,4 +718,19 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color: #666;
   text-align: center;
   padding: 0 10px 10px 10px;
+}
+
+.mat-calendar-controls {
+  display: flex !important;
+  margin: 1% calc(25% / 7 - 16px) !important;
+}
+
+.mat-calendar-header {
+  padding: 0 8px 0 8px;
+  height: 80px;
+}
+
+.mat-calendar-period-button {
+  min-width: 0;
+  font-size: 18px;
 }

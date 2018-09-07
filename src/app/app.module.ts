@@ -66,6 +66,10 @@ import { InputFieldComponent } from './components/elements/input-field/input-fie
 import { FormInputComponent } from './components/elements/form-input/form-input.component';
 import { FormDialogComponent } from './components/common/form-dialog/form-dialog.component';
 import { ResponseDialogComponent } from './components/common/response-dialog/response-dialog.component';
+import { RoomManagementComponent } from './components/secretary/room-management/room-management.component';
+import { TeachingManagementComponent } from './components/secretary/teaching-management/teaching-management.component';
+import { LessonManagementComponent } from './components/secretary/lesson-management/lesson-management.component';
+import { LessonDialogComponent } from './components/secretary/lesson-dialog/lesson-dialog.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +89,11 @@ import { ResponseDialogComponent } from './components/common/response-dialog/res
     InputFieldComponent,
     FormInputComponent,
     FormDialogComponent,
-    ResponseDialogComponent
+    ResponseDialogComponent,
+    RoomManagementComponent,
+    TeachingManagementComponent,
+    LessonManagementComponent,
+    LessonDialogComponent
   ],
   imports: [
     CdkTableModule,
