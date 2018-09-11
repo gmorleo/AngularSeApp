@@ -3,7 +3,6 @@
   <div class="container">
     <div class="content">
 
-
       <mat-card class="card" *ngFor="let c of courses">
         <mat-card-header>
           <mat-card-title>Elenco Insegnamenti del corso di {{c.name}}</mat-card-title>
@@ -11,13 +10,13 @@
         <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
         <mat-card-content>
 
-          <table matSort (matSortChange)="sortData($event)" class="full-lenght">
+          <table matSort class="full-lenght">
             <tr class="header-row">
-              <th mat-sort-header="id" style="width: 15%">{{headers[0]}}</th>
-              <th mat-sort-header="name" style="width: 30%">{{headers[1]}}</th>
-              <th mat-sort-header="credits" style="width: 10%">{{headers[2]}}</th>
-              <th mat-sort-header="year"style="width: 10%">{{headers[3]}}</th>
-              <th mat-sort-header="professor"style="width: 35%">{{headers[4]}}</th>
+              <th mat-sort-header="id" style="width: 15%">Id</th>
+              <th mat-sort-header="name" style="width: 30%">Nome</th>
+              <th mat-sort-header="credits" style="width: 10%">Crediti</th>
+              <th mat-sort-header="year"style="width: 10%">Anno</th>
+              <th mat-sort-header="professor"style="width: 35%">Professore</th>
             </tr>
             <div *ngFor="let item of teaching" class="full-lenght">
               <div *ngIf="c.id == item.idCourse" class="row">
@@ -25,14 +24,13 @@
                 <td style="width: 30%">{{item.name}}</td>
                 <td style="width: 10%">{{item.credits}}</td>
                 <td style="width: 10%">{{item.year}}</td>
-                <td style="width: 35%">{{item.professorDTO.name}}</td>
+                <td style="width: 35%">{{item.professorDTO.name}} {{item.professorDTO.surname}}</td>
               </div>
             </div>
           </table>
 
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button class="mright">RIMUOVI</button>
           <button mat-raised-button (click)="openNewTeachingDialog(c.id)">AGGIUNGI</button>
         </mat-card-actions>
       </mat-card>

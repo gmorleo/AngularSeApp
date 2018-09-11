@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogConfig, Sort} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {Room} from '../../../models/room';
 import {UtilityService} from '../../../services/utility.service';
 import {RoomRestService} from '../../../services/room-rest.service';
 import {Validators} from '@angular/forms';
-import {EMAIL_REGEX} from '../../../../Variable';
+import {FAIL, SUCCESS} from '../../../../Variable';
 import {ResponseDialogComponent} from '../../common/response-dialog/response-dialog.component';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
-import {Student} from '../../../models/student';
+import {DialogBuilder} from '../../../models/dialog-builder';
 
 @Component({
   selector: 'app-room-management',
@@ -16,15 +16,7 @@ import {Student} from '../../../models/student';
 })
 export class RoomManagementComponent implements OnInit {
 
-  headers: string[] = ['Id', 'Nome','Edificio','Capacità', 'Latitudine', 'Longitudine'];
   rooms: Room[];
-  newRoom: Room = {} as Room;
-  formConfig = [];
-
-  defSort: Sort = {
-    direction: 'asc',
-    active: 'id'
-  }
 
   constructor(private utilityService: UtilityService, private roomRestService: RoomRestService, private dialog: MatDialog) { }
 
@@ -33,101 +25,50 @@ export class RoomManagementComponent implements OnInit {
   }
 
   openNewRoomDialog(location: string) {
-    const dialogConfig = this.initForm();
-    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( res => {
-      if (res) {
-        this.resolveRes(res);
-        this.insertNewRoom(this.newRoom);
+    const dialogRef = this.dialog.open(FormDialogComponent,this.configInsertDialog());
+    dialogRef.afterClosed().subscribe( (room: Room) => {
+      if (room){
+        var newroom = room;
+        console.log(newroom);
+        this.roomRestService.insert(newroom).subscribe( res => {
+          this.openResponseDialog("Aula", SUCCESS);
+          this.reload();
+        }, err => {
+          this.openResponseDialog("Aula", FAIL);
+        });
       }
     })
   }
 
-  insertNewRoom(room: Room) {
-    this.roomRestService.insertNewRoom(room).subscribe(res => {
-      if (res.name == room.name) {
-        this.openResponseForm("Aula inserita correttamente!",0)
-        this.getAllRoom();
-      }
-    }, err => {
-      console.log(err)
-    });
+  openResponseDialog(name: string, res: number) {
+    const responseDialog = this.dialog.open(ResponseDialogComponent, this.configResponseDialog(name, res));
+  }
+
+  configResponseDialog(name: string, res: number) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addResponse(name,res);
+    return dialogBuilder.getConfigResponseDialog();
+  }
+
+  configInsertDialog() {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Inserisci nuova aula");
+    dialogBuilder.addInput("text",'','name','Nome aula',Validators.required);
+    dialogBuilder.addInput("text",'','location','Edificio',Validators.required);
+    dialogBuilder.addInput("number",'','capacity','Capacità',Validators.required);
+    dialogBuilder.addInput("number",'','latitude','Latitudine',Validators.required);
+    dialogBuilder.addInput("number",'','longitude','Longitudine',Validators.required);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  reload(){
+    this.getAllRoom();
   }
 
   getAllRoom() {
     this.roomRestService.getAll().subscribe( data => {
       this.rooms = data;
-      this.sortData(this.defSort);
-    }, err => {
-      console.log(err)
-    })
-  }
-
-  openResponseForm(t: string, r: number) {
-    const responseConfig = new MatDialogConfig();
-    responseConfig.disableClose = true;
-    responseConfig.autoFocus = true;
-    responseConfig.data = {
-      title: t,
-      response: r
-    }
-    const responseDialog = this.dialog.open(ResponseDialogComponent, responseConfig)
-  }
-
-  resolveRes(element: any) {
-    this.newRoom.name = element.get("name").value;
-    this.newRoom.location = element.get("location").value;
-    this.newRoom.capacity = element.get("capacity").value;
-    this.newRoom.latitude = element.get("latitude").value;
-    this.newRoom.longitude = element.get("longitude").value;
-  }
-
-  initForm() {
-    this.formConfig = [
-      {
-        type: 'text',
-        name: 'name',
-        placeholder: 'Nome',
-        validators: Validators.required
-      },
-      {
-        type: 'text',
-        name: 'location',
-        placeholder: 'Edificio',
-        validators: Validators.required
-      },
-      {
-        type: 'number',
-        name: 'capacity',
-        placeholder: 'Capacità',
-        validators: Validators.required
-      },
-      {
-        type: 'number',
-        name: 'latitude',
-        placeholder: 'Latitudine',
-        validators:  Validators.required
-      },
-      {
-        type: 'number',
-        name: 'longitude',
-        placeholder: 'Longitudine',
-        validators: Validators.required
-      }
-    ];
-
-    var dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title: 'Inserisci nuova Aula',
-      element: this.formConfig,
-    };
-    return dialogConfig;
-  }
-
-  sortData(sort: Sort) {
-    this.rooms = this.utilityService.sortItem(sort, this.rooms);
+    });
   }
 
 }

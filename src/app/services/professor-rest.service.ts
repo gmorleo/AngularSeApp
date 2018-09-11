@@ -19,7 +19,7 @@ export class ProfessorRestService {
     return request;
   }
 
-  insertNewProfessor(professor: Professor):Observable<Professor> {
+  insert(professor: Professor):Observable<Professor> {
     let request = this.http.post<Professor>(this.apiUserUrl + "/save", {
       "name": professor.name,
       "surname": professor.surname,

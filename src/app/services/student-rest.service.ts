@@ -25,7 +25,7 @@ export class StudentRestService {
     return request;
   }
 
-  insertNewStudent(student: Student):Observable<Student> {
+  insert(student: Student):Observable<Student> {
     let request = this.http.post<Student>(this.apiUserUrl + "/save", {
       "name": student.name,
       "surname": student.surname,

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ProfessorRestService} from '../../../services/professor-rest.service';
 import {Professor} from '../../../models/professor';
 import {MatDialog, MatDialogConfig, Sort} from '@angular/material';
-import {NewProfessorDialogComponent} from '../new-professor-dialog/new-professor-dialog.component';
 import {Validators} from '@angular/forms';
 import {EMAIL_REGEX} from '../../../../Variable';
 import {CourseRestService} from '../../../services/course-rest.service';
@@ -79,7 +78,7 @@ export class ProfessorComponent implements OnInit {
   }
 
   insertNewProfessor(professor: Professor) {
-    this.professorRestService.insertNewProfessor(professor).subscribe(res => {
+    this.professorRestService.insert(professor).subscribe(res => {
       if (res.name == professor.name) {
         this.openResponseDialog("Professore inserito correttamente!",0)
         this.getAllProfessor();

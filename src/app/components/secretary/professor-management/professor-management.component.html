@@ -1,0 +1,42 @@
+<div>
+  <div class="title">Professori</div>
+  <div class="container">
+    <div class="content">
+
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Elenco professori:</mat-card-title>
+        </mat-card-header>
+        <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+        <mat-card-content>
+
+          <table matSort class="full-lenght">
+            <tr class="header-row">
+              <th mat-sort-header="idUser" style="width: 10%">Id</th>
+              <th mat-sort-header="name" style="width: 20%">Nome</th>
+              <th mat-sort-header="surname" style="width: 20%">Cognome</th>
+              <th mat-sort-header="email"style="width: 40%">Email</th>
+              <th mat-sort-header="age"style="width: 10%">Età</th>
+            </tr>
+
+            <tr *ngFor="let professor of professors" class="row">
+              <td style="width: 10%">{{professor.idUser}}</td>
+              <td style="width: 20%">{{professor.name}}</td>
+              <td style="width: 20%">{{professor.surname}}</td>
+              <td style="width: 40%">{{professor.email}}</td>
+              <td style="width: 10%">{{professor.age}}</td>
+            </tr>
+          </table>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button class="mright">MODIFICA</button>
+          <button mat-raised-button (click)="openNewProfessorDialog()">AGGIUNGI</button>
+        </mat-card-actions>
+      </mat-card>
+
+
+    </div>
+  </div>
+</div>

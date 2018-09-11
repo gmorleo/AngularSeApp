@@ -736,6 +736,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   font-size: 18px;
 }
 
+.card {
+  margin-bottom: 30px;
+}
+
 a {
   text-decoration: none;
   color: #f9aa33;

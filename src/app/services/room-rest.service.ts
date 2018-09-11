@@ -20,7 +20,7 @@ export class RoomRestService {
     return request;
   }
 
-  insertNewRoom(room: Room):Observable<Room> {
+  insert(room: Room):Observable<Room> {
     let request = this.http.post<Room>(this.apiUserUrl + "/save", {
       "capacity": room.capacity,
       "location": room.location,

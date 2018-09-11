@@ -5,12 +5,13 @@ import {Course} from '../../../models/course';
 import {CourseRestService} from '../../../services/course-rest.service';
 import {TeachingRestService} from '../../../services/teaching-rest.service';
 import {UtilityService} from '../../../services/utility.service';
-import {EMAIL_REGEX} from '../../../../Variable';
+import {EMAIL_REGEX, FAIL, NAME, NAME_SURNAME, SUCCESS} from '../../../../Variable';
 import {Validators} from '@angular/forms';
 import {Professor} from '../../../models/professor';
 import {ProfessorRestService} from '../../../services/professor-rest.service';
 import {ResponseDialogComponent} from '../../common/response-dialog/response-dialog.component';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
+import {DialogBuilder} from '../../../models/dialog-builder';
 
 @Component({
   selector: 'app-teaching-management',
@@ -34,80 +35,68 @@ export class TeachingManagementComponent implements OnInit {
               private professorRestService: ProfessorRestService,
               private courseRestService: CourseRestService,
               private teachingRestService: TeachingRestService,
-              public dialog: MatDialog) { }
-
-  ngOnInit() {
-    this.getAllCourse();
-    this.getAllTeaching();
-    this.getAllProfessor();
+              public dialog: MatDialog) {
+    this.reload();
   }
 
   openNewTeachingDialog(idCourse: number) {
-    const dialogConfig = this.initForm();
-    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( (res: any) => {
-      if (res){
-        this.resolveRes(res, idCourse);
-        console.log(this.newTeaching);
-        this.insertNewTeaching(this.newTeaching);
+    const dialogRef = this.dialog.open(FormDialogComponent,this.configInsertDialog());
+    dialogRef.afterClosed().subscribe( (newInsertion: Teaching) => {
+      if (newInsertion){
+        newInsertion.idCourse = idCourse;
+        console.log(newInsertion);
+        this.teachingRestService.insert(newInsertion).subscribe( res => {
+          this.openResponseDialog("Insegnamento", SUCCESS);
+          this.reload();
+        }, err => {
+          this.openResponseDialog("Insegnamento", FAIL);
+        });
       }
     })
   }
 
-  insertNewTeaching(teaching: Teaching) {
-    this.teachingRestService.insertNewTeaching(teaching).subscribe(res => {
-      if (res.name == teaching.name) {
-        this.openResponseDialog("Professore inserito correttamente!",0)
-        this.getAllTeaching();
-      }
-    }, err => {
-      console.log(err)
-    });
+  openResponseDialog(name: string, res: number) {
+    const responseDialog = this.dialog.open(ResponseDialogComponent, this.configResponseDialog(name, res));
   }
 
-  resolveRes(element: any, idCourse: number) {
-    this.newTeaching.name = element.get("name").value;
-    this.newTeaching.credits = element.get("credits").value;
-    this.newTeaching.year = element.get("year").value;
-    this.newTeaching.idCourse = idCourse;
-    var selectedProfessor = this.professors.find(function(item) {
-      return item.name == element.get("professor").value;
-    });
-    this.newTeaching.idProfessor = selectedProfessor.id;
+  configResponseDialog(name: string, res: number) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addResponse(name,res);
+    return dialogBuilder.getConfigResponseDialog();
   }
 
-  openResponseDialog(t: string, r: number) {
-    const responseConfig = new MatDialogConfig();
-    responseConfig.disableClose = true;
-    responseConfig.autoFocus = true;
-    responseConfig.data = {
-      title: t,
-      response: r
-    }
-    const responseDialog = this.dialog.open(ResponseDialogComponent, responseConfig)
+  configInsertDialog() {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Inserisci nuovo corso");
+    dialogBuilder.addInput("text",'','name',"Nome dell'insegnamento",Validators.required);
+    dialogBuilder.addInput("number",'','credits','Crediti',Validators.required);
+    dialogBuilder.addInput("number",'','year','Anno',Validators.required);
+    dialogBuilder.addSelect('','idCourse','Corso di studi', Validators.required, this.courses, NAME);
+    dialogBuilder.addSelect('','idProfessor','Professore', Validators.required, this.professors, NAME_SURNAME);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  reload(){
+    this.getAllProfessor();
+    this.getAllTeaching();
+    this.getAllCourse();
   }
 
   getAllTeaching() {
     this.teachingRestService.getAll().subscribe( data => {
       this.teaching = data;
-    }, err => {
-      console.log(err)
     })
   }
 
   getAllCourse() {
     this.courseRestService.getAll().subscribe( data => {
       this.courses = data;
-    }, err => {
-      console.log(err)
     })
   }
 
   getAllProfessor() {
     this.professorRestService.getAll().subscribe( data => {
       this.professors = data;
-    }, err => {
-      console.log(err)
     })
   }
 
@@ -154,9 +143,7 @@ export class TeachingManagementComponent implements OnInit {
     return dialogConfig;
   }
 
-  sortData(sort: Sort) {
-    this.teaching = this.utilityService.sortItem(sort, this.teaching);
+  ngOnInit() {
   }
-
 
 }

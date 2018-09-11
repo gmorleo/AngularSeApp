@@ -1,0 +1,43 @@
+<div>
+  <div class="title">Corsi di studio</div>
+  <div class="container">
+    <div class="content">
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Elenco corsi di studio attivi:</mat-card-title>
+        </mat-card-header>
+        <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+        <mat-card-content>
+
+          <table matSort (matSortChange)="sortData($event)" class="full-lenght">
+            <tr class="header-row">
+              <th mat-sort-header="idCourse" style="width: 8%">id</th>
+              <th mat-sort-header="name" style="width: 32%">Nome</th>
+              <th mat-sort-header="type" style="width: 12%">Tipo</th>
+              <th mat-sort-header="lenght" style="width: 12%">Anni</th>
+              <th mat-sort-header="credits" style="width: 12%">Crediti</th>
+              <th mat-sort-header="location" style="width: 12%">Sede</th>
+              <th mat-sort-header="language"style="width: 12%">Lingua</th>
+            </tr>
+
+            <tr *ngFor="let item of courses" class="row">
+              <td style="width: 8%">{{item.id}}</td>
+              <td style="width: 32%">{{item.name}}</td>
+              <td style="width: 12%">{{item.type}}</td>
+              <td style="width: 12%">{{item.lenght}}</td>
+              <td style="width: 12%">{{item.credits}}</td>
+              <td style="width: 12%">{{item.location}}</td>
+              <td style="width: 12%">{{item.language}}</td>
+            </tr>
+          </table>
+
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button (click)="openNewCourseDialog()">AGGIUNGI</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

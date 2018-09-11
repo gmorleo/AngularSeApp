@@ -13,14 +13,14 @@
 
             <table matSort (matSortChange)="sortData($event)" class="full-lenght">
                 <tr class="header-row">
-                  <th mat-sort-header="idUser" style="width: 8%">{{headers[0]}}</th>
-                  <th mat-sort-header="name" style="width: 15%">{{headers[1]}}</th>
-                  <th mat-sort-header="surname" style="width: 15%">{{headers[2]}}</th>
-                  <th mat-sort-header="email"style="width: 25%">{{headers[3]}}</th>
-                  <th mat-sort-header="age"style="width: 7%">{{headers[4]}}</th>
-                  <th mat-sort-header="matricola"style="width: 10%">{{headers[5]}}</th>
-                  <th mat-sort-header="year"style="width: 10%">{{headers[6]}}</th>
-                  <th mat-sort-header="yearStart"style="width: 10%">{{headers[7]}}</th>
+                  <th mat-sort-header="idUser" style="width: 8%">Id</th>
+                  <th mat-sort-header="name" style="width: 15%">Nome</th>
+                  <th mat-sort-header="surname" style="width: 15%">Cognome</th>
+                  <th mat-sort-header="email"style="width: 25%">Email</th>
+                  <th mat-sort-header="age"style="width: 7%">Età</th>
+                  <th mat-sort-header="matricola"style="width: 10%">Matricola</th>
+                  <th mat-sort-header="year"style="width: 10%">Anno di corso</th>
+                  <th mat-sort-header="yearStart"style="width: 10%">Anno di inizio</th>
 
                 </tr>
               <div *ngFor="let item of students" class="full-lenght">

@@ -55,12 +55,9 @@ import { HomeSecretaryComponent } from './components/secretary/home-secretary/ho
 import {ProvaComponent} from './components/common/prova/prova.component';
 import { HomeProfessorComponent } from './components/professor/home-professor/home-professor.component';
 import { HomeDatailsComponent } from './components/common/home-datails/home-datails.component';
-import {CourseComponent} from './components/secretary/course/course.component';
-import { NewCourseDialogComponent } from './components/secretary/new-course-dialog/new-course-dialog.component';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {CdkTableModule} from '@angular/cdk/table';
 import { ProfessorComponent } from './components/secretary/professor/professor.component';
-import { NewProfessorDialogComponent } from './components/secretary/new-professor-dialog/new-professor-dialog.component';
 import { StudentManagementComponent} from './components/secretary/student-management/student-management.component';
 import { InputFieldComponent } from './components/elements/input-field/input-field.component';
 import { FormInputComponent } from './components/elements/form-input/form-input.component';
@@ -73,10 +70,11 @@ import { LessonDialogComponent } from './components/secretary/lesson-dialog/less
 import { ExamManagementComponent } from './components/secretary/exam-management/exam-management.component';
 import { LessonComponent } from './components/professor/lesson/lesson.component';
 import {StarRatingModule} from 'angular-star-rating';
-import {RatingModule} from 'ngx-rating';
 import { AddMaterialDialogComponent } from './components/professor/add-material-dialog/add-material-dialog.component';
 import {AngularFileUploaderModule} from 'angular-file-uploader';
 import { ProfessorSegnalationComponent } from './components/professor/professor-segnalation/professor-segnalation.component';
+import { CourseManagementComponent } from './components/secretary/course-management/course-management.component';
+import { ProfessorManagementComponent } from './components/secretary/professor-management/professor-management.component';
 
 @NgModule({
   declarations: [
@@ -88,10 +86,7 @@ import { ProfessorSegnalationComponent } from './components/professor/professor-
     ProvaComponent,
     HomeProfessorComponent,
     HomeDatailsComponent,
-    CourseComponent,
-    NewCourseDialogComponent,
     ProfessorComponent,
-    NewProfessorDialogComponent,
     StudentManagementComponent,
     InputFieldComponent,
     FormInputComponent,
@@ -104,7 +99,9 @@ import { ProfessorSegnalationComponent } from './components/professor/professor-
     ExamManagementComponent,
     LessonComponent,
     AddMaterialDialogComponent,
-    ProfessorSegnalationComponent
+    ProfessorSegnalationComponent,
+    CourseManagementComponent,
+    ProfessorManagementComponent
   ],
   imports: [
     CdkTableModule,
@@ -160,7 +157,7 @@ import { ProfessorSegnalationComponent } from './components/professor/professor-
     StarRatingModule.forRoot(),
     AngularFileUploaderModule
   ],
-  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent, FormDialogComponent, ResponseDialogComponent, AddMaterialDialogComponent],
+  entryComponents: [FormDialogComponent, ResponseDialogComponent, AddMaterialDialogComponent],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
 })

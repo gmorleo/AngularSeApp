@@ -47,7 +47,7 @@ export class FormDialogComponent implements OnInit {
       this.result.push(this.insertFormGroup.get(this.config[i].name).value)
     }
     console.log(this.result);*/
-    this.dialogRef.close(this.insertFormGroup);
+    this.dialogRef.close(this.insertFormGroup.getRawValue());
   }
 }
 

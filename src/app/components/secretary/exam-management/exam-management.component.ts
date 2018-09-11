@@ -12,6 +12,9 @@ import {FormDialogComponent} from '../../common/form-dialog/form-dialog.componen
 import {Lesson} from '../../../models/lesson';
 import {TeachingRestService} from '../../../services/teaching-rest.service';
 import {RoomRestService} from '../../../services/room-rest.service';
+import {ResponseDialogComponent} from '../../common/response-dialog/response-dialog.component';
+import {DialogBuilder} from '../../../models/dialog-builder';
+import {FAIL, NAME, SUCCESS} from '../../../../Variable';
 
 @Component({
   selector: 'app-exam-management',
@@ -32,10 +35,46 @@ export class ExamManagementComponent implements OnInit {
               private dialog: MatDialog,
               private teachingRestService: TeachingRestService,
               private roomRestService: RoomRestService) {
-
+    this.reload();
   }
 
-  ngOnInit() {
+
+  openNewExamDialog(id: number) {
+    const dialogRef = this.dialog.open(FormDialogComponent,this.configInsertDialog());
+    dialogRef.afterClosed().subscribe( (newInsertion: Exam) => {
+      if (newInsertion){
+        console.log(newInsertion);
+        this.examRestService.insert(newInsertion).subscribe( res => {
+          this.openResponseDialog("Esame", SUCCESS);
+          this.reload();
+        }, err => {
+          this.openResponseDialog("Esame", FAIL);
+        });
+      }
+    })
+  }
+
+  openResponseDialog(name: string, res: number) {
+    const responseDialog = this.dialog.open(ResponseDialogComponent, this.configResponseDialog(name, res));
+  }
+
+  configResponseDialog(name: string, res: number) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addResponse(name,res);
+    return dialogBuilder.getConfigResponseDialog();
+  }
+
+  configInsertDialog() {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Inserisci nuovo esame");
+    dialogBuilder.addSelect('','idTeaching','Insegnamento',Validators.required, this.teaching, NAME);
+    dialogBuilder.addSelect('','idRoom','Aula',Validators.required, this.rooms, NAME);
+    dialogBuilder.addInput("date",'','date','Data',Validators.required);
+    dialogBuilder.addInput("time",'','time','Ora',Validators.required);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  reload() {
     this.getAllCourse();
     this.getAllExam();
     this.getAllTeaching();
@@ -57,99 +96,16 @@ export class ExamManagementComponent implements OnInit {
   getAllRoom() {
     this.roomRestService.getAll().subscribe( data => {
       this.rooms = data;
-    }, err => {
-      console.log(err)
     })
   }
 
   getAllTeaching() {
     this.teachingRestService.getAll().subscribe( data => {
       this.teaching = data;
-    }, err => {
-      console.log(err)
     })
   }
 
-  configDialog(title: string) {
-    this.initForm();
-    var dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title: title,
-      element: this.formConfig,
-    };
-    return dialogConfig;
+  ngOnInit() {
   }
 
-  initForm() {
-    this.formConfig = [
-      {
-        value: '',
-        type: 'select',
-        name: 'teaching',
-        placeholder: 'Insegnamento',
-        validators: Validators.required,
-        options: []
-      },
-      {
-        value: '',
-        type: 'select',
-        name: 'room',
-        placeholder: 'Aula',
-        validators: Validators.required,
-        options: []
-      },
-      {
-        value: '',
-        type: 'date',
-        name: 'date',
-        placeholder: 'Data esame',
-        validators: Validators.required
-      },
-      {
-        value: '',
-        type: 'time',
-        name: 'time',
-        placeholder: 'Ora inizio esame',
-        validators: Validators.required
-      }
-    ];
-    this.teaching.forEach( control => {
-      this.formConfig[0].options.unshift(control.name+' - '+control.professorDTO.name+' '+control.professorDTO.surname);
-    });
-    this.rooms.forEach( control => {
-      this.formConfig[1].options.unshift(control.name);
-    });
-  }
-
-  openNewExamDialog(id: number) {
-    const dialogConfig = this.configDialog("Inserisci nuovo esame");
-    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( (res: any) => {
-      if(res) {
-        var newExam: Exam = {} as Exam;
-        newExam.idTeaching = this.getIdByTeaching(res.get("teaching").value.split(" ",1));
-        newExam.idRoom = this.getIdByRoom(res.get("room").value);
-        newExam.date = res.get("date").value;
-        newExam.time = res.get("time").value;
-        console.log(newExam);
-      }
-    });
-  }
-
-  getIdByTeaching(name: string) {
-    console.log(name);
-    var teaching: Teaching = this.teaching.find(function(item) {
-      return item.name == name;
-    });
-    return teaching.id;
-  }
-
-  getIdByRoom(name: string) {
-    var room: Room = this.rooms.find(function(item) {
-      return item.name == name;
-    });
-    return room.id;
-  }
 }

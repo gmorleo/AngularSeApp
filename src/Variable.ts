@@ -3,6 +3,11 @@ export const ServerUrl = {
   //url: 'http://192.168.1.8:8080/SeApp'
 };
 
+export const SUCCESS = 0;
+export const FAIL = 1;
+export const NAME = 0;
+export const NAME_SURNAME = 1;
+
 export const Value = {
   student:1,
   secretary:2,

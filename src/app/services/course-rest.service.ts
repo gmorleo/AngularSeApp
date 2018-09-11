@@ -13,16 +13,6 @@ export class CourseRestService {
   constructor(public http: HttpClient) {
   }
 
-/*  getAll() {
-    return new Promise(resolve => {
-      this.http.get(this.apiUserUrl + "/getAll").subscribe(data => {
-        resolve(data);
-      }, err => {
-        console.log(err)
-      })
-    })
-  }*/
-
   getAll():Observable<Course[]> {
     let request = this.http.get<Course[]>(this.apiUserUrl + "/getAll");
     return request;

@@ -4,8 +4,8 @@
     <mat-form-field class="full-lenght" *ngFor="let element of config">
       <input matInput [formControlName]="element.name" [placeholder]="element.placeholder" [type]="element.type" *ngIf="!(element.type == 'select')">
       <mat-select [formControlName]="element.name" [placeholder]="element.placeholder" *ngIf="element.type == 'select'">
-        <mat-option *ngFor="let s of element.options" [value]="s" va>
-          {{s}}
+        <mat-option *ngFor="let s of element.options" [value]="s.name">
+          {{s.value}}
         </mat-option>
       </mat-select>
       <mat-error [style.display]="insertFormGroup.controls[element.name].hasError('pattern')? 'inline' : 'none'">

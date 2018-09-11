@@ -20,7 +20,7 @@ export class TeachingRestService {
     return request;
   }
 
-  insertNewTeaching(teaching: Teaching):Observable<Teaching> {
+  insert(teaching: Teaching):Observable<Teaching> {
     let request = this.http.post<Teaching>(this.apiUserUrl + "/save", {
       "name": teaching.name,
       "credits": teaching.credits,
