@@ -1,5 +1,6 @@
 import {Professor} from "./professor";
 import {Room} from "./room";
+import {SegnalationState} from './segnalationState';
 
 export interface Segnalation {
 
@@ -9,6 +10,7 @@ export interface Segnalation {
   idState:number;
   idRoom:number;
   idProfessor:number;
+  segnalationStateDTO: SegnalationState;
   professorDTO:Professor;
   roomDTO:Room;
 

@@ -32,7 +32,13 @@ export class ProfessorSegnalationComponent implements OnInit {
   }
 
   getSegnalationByIdProfessor() {
-    this.segnalationRestService.getByProfessorId(this.professor.id).subscribe( data => {
+    this.segnalationRestService.getByIdProfessor(this.professor.id).subscribe( data => {
+      this.segnalations = data;
+    })
+  }
+
+  getSegnalationByIdRoom(id: number) {
+    this.segnalationRestService.getByIdRoom(id).subscribe( data => {
       this.segnalations = data;
     })
   }
@@ -47,7 +53,9 @@ export class ProfessorSegnalationComponent implements OnInit {
   }
 
   openNewSegnalationDialog() {
-    const dialogConfig = this.configDialog();
+    console.log(this.segnalations);
+    this.initForm();
+    const dialogConfig = this.configDialog('Inserisci nuova segnalazione');
     const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
     dialogRef.afterClosed().subscribe( (res: any) => {
       if (res){
@@ -57,6 +65,11 @@ export class ProfessorSegnalationComponent implements OnInit {
         newSegnalation.idProfessor = this.professor.id;
         newSegnalation.idRoom = this.getIdByRoom(res.get("room").value);
         console.log(newSegnalation);
+        this.segnalationRestService.insert(newSegnalation).subscribe( res => {
+          if(res){
+            console.log("ok");
+          }
+        });
       }
     })
   }
@@ -82,13 +95,27 @@ export class ProfessorSegnalationComponent implements OnInit {
     })
   }
 
-  configDialog() {
-    this.initForm();
+  initFormRoom() {
+    this.formConfig = [
+      {
+        type: 'select',
+        name: 'room',
+        placeholder: 'Aula',
+        validators: Validators.required,
+        options: []
+      }
+    ];
+    this.rooms.forEach(control => {
+      this.formConfig[0].options.unshift(control.name);
+    })
+  }
+
+  configDialog(title: string) {
     var dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      title: 'Inserisci nuova segnalazione',
+      title: title,
       element: this.formConfig,
     };
     return dialogConfig;
@@ -99,5 +126,22 @@ export class ProfessorSegnalationComponent implements OnInit {
       return item.name == name;
     });
     return room.id;
+  }
+
+  viewAllSegnalationRoom() {
+    this.initFormRoom();
+    const dialogConfig = this.configDialog("Seleziona l'aula");
+    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
+    dialogRef.afterClosed().subscribe( (res: any) => {
+      if (res){
+        var idRoom = this.getIdByRoom(res.get("room").value);
+        console.log(idRoom);
+        this.getSegnalationByIdRoom(idRoom);
+      }
+    })
+  }
+
+  viewAllMySegnalation() {
+    this.getSegnalationByIdProfessor();
   }
 }

@@ -17,17 +17,23 @@ export class SegnalationRestService {
   }
 
 
-  getByProfessorId(id: number): Observable<Segnalation[]> {
+  getByIdProfessor(id: number): Observable<Segnalation[]> {
     let request = this.http.get<Segnalation[]>(this.apiUserUrl + "/getByIdProfessor/"+id);
     return request;
   }
 
-  insert(lesson: Lesson):Observable<Lesson> {
-    let request = this.http.post<Lesson>(this.apiUserUrl + "/save", {
-      "start": lesson.start,
-      "end": lesson.end,
-      "idTeaching": lesson.idTeaching,
-      "idRoom": lesson.idRoom
+  getByIdRoom(id: number): Observable<Segnalation[]> {
+    let request = this.http.get<Segnalation[]>(this.apiUserUrl + "/getByRoom/"+id);
+    return request;
+  }
+
+  insert(segnalation: Segnalation):Observable<Segnalation> {
+    let request = this.http.post<Segnalation>(this.apiUserUrl + "/save", {
+      "note": segnalation.note,
+      "description": segnalation.description,
+      "idState": segnalation.idState,
+      "idProfessor": segnalation.idProfessor,
+      "idRoom": segnalation.idRoom
     });
     return request;
   }
