@@ -50,17 +50,13 @@ import {FirebaseService} from './services/firebase.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFireAuthModule} from 'angularfire2/auth';
-import {HomeStudentComponent} from './components/student/home-student/home-student.component';
 import { HomeSecretaryComponent } from './components/secretary/home-secretary/home-secretary.component';
-import {ProvaComponent} from './components/common/prova/prova.component';
 import { HomeProfessorComponent } from './components/professor/home-professor/home-professor.component';
 import { HomeDatailsComponent } from './components/common/home-datails/home-datails.component';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {CdkTableModule} from '@angular/cdk/table';
 import { ProfessorComponent } from './components/secretary/professor/professor.component';
 import { StudentManagementComponent} from './components/secretary/student-management/student-management.component';
-import { InputFieldComponent } from './components/elements/input-field/input-field.component';
-import { FormInputComponent } from './components/elements/form-input/form-input.component';
 import { FormDialogComponent } from './components/common/form-dialog/form-dialog.component';
 import { ResponseDialogComponent } from './components/common/response-dialog/response-dialog.component';
 import { RoomManagementComponent } from './components/secretary/room-management/room-management.component';
@@ -81,15 +77,11 @@ import { ProfessorManagementComponent } from './components/secretary/professor-m
     AppComponent,
     LoginComponent,
     NotFoundComponent,
-    HomeStudentComponent,
     HomeSecretaryComponent,
-    ProvaComponent,
     HomeProfessorComponent,
     HomeDatailsComponent,
     ProfessorComponent,
     StudentManagementComponent,
-    InputFieldComponent,
-    FormInputComponent,
     FormDialogComponent,
     ResponseDialogComponent,
     RoomManagementComponent,

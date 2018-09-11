@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {CourseService} from '../../../services/course.service';
 import {Course} from '../../../models/course';
 import {CourseRestService} from '../../../services/course-rest.service';
 import {Validators} from '@angular/forms';
@@ -18,8 +17,7 @@ export class CourseManagementComponent implements OnInit {
 
   courses: Course[];
 
-  constructor(private courseService: CourseService,
-              private courseRestService: CourseRestService,
+  constructor(private courseRestService: CourseRestService,
               private dialog: MatDialog) {
     this.reload();
   }
