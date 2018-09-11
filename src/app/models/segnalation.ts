@@ -7,6 +7,8 @@ export interface Segnalation {
   note:string;
   description:string;
   idState:number;
+  idRoom:number;
+  idProfessor:number;
   professorDTO:Professor;
   roomDTO:Room;
 

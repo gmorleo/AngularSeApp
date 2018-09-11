@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~css-star-rating/css/star-rating.css";
 
 html, body {
   height: 100%;
@@ -733,4 +734,9 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-calendar-period-button {
   min-width: 0;
   font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: #f9aa33;
 }

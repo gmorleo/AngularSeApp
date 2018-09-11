@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ServerUrl} from '../../Variable';
-import {Observable} from 'rxjs';
 import {Room} from '../models/room';
+import {Observable} from 'rxjs';
+import {ServerUrl} from '../../Variable';
+import {Segnalation} from '../models/segnalation';
 import {Lesson} from '../models/lesson';
-import {getLocaleEraNames} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LessonRestService {
+export class SegnalationRestService {
 
-  apiUserUrl = `${ServerUrl.url}/lesson`;
+  apiUserUrl = `${ServerUrl.url}/segnalation`;
 
   constructor(public http: HttpClient) {
   }
 
-  getAll(): Observable<Lesson[]> {
-    let request = this.http.get<Lesson[]>(this.apiUserUrl + "/getAll");
-    return request;
-  }
 
-  getAllById(id: number): Observable<Lesson[]> {
-    let request = this.http.get<Lesson[]>(this.apiUserUrl + "/getByIdProfessor/"+id);
+  getByProfessorId(id: number): Observable<Segnalation[]> {
+    let request = this.http.get<Segnalation[]>(this.apiUserUrl + "/getByIdProfessor/"+id);
     return request;
   }
 
@@ -34,9 +30,5 @@ export class LessonRestService {
       "idRoom": lesson.idRoom
     });
     return request;
-  }
-
-  modify(lesson: Lesson) {
-
   }
 }

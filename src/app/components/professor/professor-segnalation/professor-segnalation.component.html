@@ -1,0 +1,36 @@
+<div>
+  <div class="title">Segnalazioni</div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Le tue segnalazioni:
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table matSort class="full-lenght">
+        <tr class="header-row">
+          <th mat-sort-header="id" style="width: 10%">Id</th>
+          <th mat-sort-header="note" style="width: 20%">Note</th>
+          <th mat-sort-header="room" style="width: 15%">Aula</th>
+          <th mat-sort-header="professor" style="width: 15%">Professore</th>
+          <th mat-sort-header="state"style="width: 15%">Stato</th>
+          <th mat-sort-header="description"style="width: 25%">Descrizione</th>
+        </tr>
+        <div *ngFor="let s of segnalations" class="full-lenght">
+          <div class="row">
+            <td style="width: 10%">{{s.id}}</td>
+            <td style="width: 20%">{{s.note}}</td>
+            <td style="width: 15%">{{s.roomDTO.name}}</td>
+            <td style="width: 15%">{{s.professorDTO.name}} {{s.professorDTO.surname}}</td>
+            <td style="width: 15%">{{s.idState}}</td>
+            <td style="width: 25%">{{s.description}}</td>
+          </div>
+        </div>
+      </table>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="viewAllSegnalationRoom()" class="mright">VISUALIZZA TUTTE LE SEGNALAZIONI</button>
+      <button mat-raised-button (click)="openNewSegnalationDialog()">AGGIUNGI</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,50 @@
+<div>
+  <div class="title">Elenco lezioni</div>
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-description class="table-header">
+          <td style="width: 20%">Insegnamento</td>
+          <td style="width: 20%">Corso</td>
+          <td style="width: 20%">Aula</td>
+          <td style="width: 20%">Data</td>
+          <td style="width: 20%">Orario</td>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngFor="let l of lessons; let i = index" [expanded]="lesson === i" (opened)="openLesson(i,l.id)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-description >
+              <td style="width: 20%">{{l.teachingDTO.name}}</td>
+              <td style="width: 20%">{{l.teachingDTO.courseDTO.name}}</td>
+              <td style="width: 20%">{{l.roomDTO.name}}</td>
+              <td style="width: 20%">{{l.date}}</td>
+              <td style="width: 20%">{{l.start}} - {{l.end}}</td>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div style="display: flex">
+        <div class="table-title">
+          Valutazione Ricevuta:
+        </div>
+        <star-rating [starType]="'svg'" [rating]="2.63" class="rating"></star-rating>
+      </div>
+      <mat-divider></mat-divider>
+      <div *ngIf="materials.length > 0">
+        <mat-list class="material-list">
+          <h3 mat-subheader class="material-subheader">Materiale</h3>
+          <mat-list-item *ngFor="let m of materials">
+            <mat-icon mat-list-icon>note</mat-icon>
+            <h4 mat-line><a href="{{m.link}}"> {{m.name}}</a></h4>
+            <p mat-line> {{m.date}} </p>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <mat-action-row>
+        <button mat-raised-button (click)="openNewMaterialDialog()">Aggiungi Materiale</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</div>

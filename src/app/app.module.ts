@@ -70,6 +70,13 @@ import { RoomManagementComponent } from './components/secretary/room-management/
 import { TeachingManagementComponent } from './components/secretary/teaching-management/teaching-management.component';
 import { LessonManagementComponent } from './components/secretary/lesson-management/lesson-management.component';
 import { LessonDialogComponent } from './components/secretary/lesson-dialog/lesson-dialog.component';
+import { ExamManagementComponent } from './components/secretary/exam-management/exam-management.component';
+import { LessonComponent } from './components/professor/lesson/lesson.component';
+import {StarRatingModule} from 'angular-star-rating';
+import {RatingModule} from 'ngx-rating';
+import { AddMaterialDialogComponent } from './components/professor/add-material-dialog/add-material-dialog.component';
+import {AngularFileUploaderModule} from 'angular-file-uploader';
+import { ProfessorSegnalationComponent } from './components/professor/professor-segnalation/professor-segnalation.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +100,11 @@ import { LessonDialogComponent } from './components/secretary/lesson-dialog/less
     RoomManagementComponent,
     TeachingManagementComponent,
     LessonManagementComponent,
-    LessonDialogComponent
+    LessonDialogComponent,
+    ExamManagementComponent,
+    LessonComponent,
+    AddMaterialDialogComponent,
+    ProfessorSegnalationComponent
   ],
   imports: [
     CdkTableModule,
@@ -144,9 +155,12 @@ import { LessonDialogComponent } from './components/secretary/lesson-dialog/less
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+
+    StarRatingModule.forRoot(),
+    AngularFileUploaderModule
   ],
-  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent, FormDialogComponent, ResponseDialogComponent],
+  entryComponents: [NewCourseDialogComponent, NewProfessorDialogComponent, FormDialogComponent, ResponseDialogComponent, AddMaterialDialogComponent],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
 })

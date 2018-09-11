@@ -6,6 +6,7 @@ export interface Lesson {
 
   id: number;
   idTeaching: number;
+  idRoom: number;
   date: String;
   start:  string;
   end:  String;

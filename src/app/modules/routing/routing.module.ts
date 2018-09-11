@@ -13,23 +13,30 @@ import {StudentManagementComponent} from '../../components/secretary/student-man
 import {RoomManagementComponent} from '../../components/secretary/room-management/room-management.component';
 import {TeachingManagementComponent} from '../../components/secretary/teaching-management/teaching-management.component';
 import {LessonManagementComponent} from '../../components/secretary/lesson-management/lesson-management.component';
+import {ExamManagementComponent} from '../../components/secretary/exam-management/exam-management.component';
+import {LessonComponent} from '../../components/professor/lesson/lesson.component';
+import {ProfessorSegnalationComponent} from '../../components/professor/professor-segnalation/professor-segnalation.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'secretary', component: HomeSecretaryComponent, canActivate: [AuthSecretaryGuard],
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: HomeDatailsComponent},
       {path: 'course-management', component: CourseComponent},
       {path: 'teaching-management', component: TeachingManagementComponent},
       {path: 'professor-management', component: ProfessorComponent},
       {path: 'student-management', component: StudentManagementComponent},
       {path: 'room-management', component: RoomManagementComponent},
-      {path: 'lesson-management', component: LessonManagementComponent}
+      {path: 'lesson-management', component: LessonManagementComponent},
+      {path: 'exam-management', component: ExamManagementComponent}
     ]},
   {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard],
     children: [
-      {path: 'professor/home', component: HomeDatailsComponent}
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: 'home', component: HomeDatailsComponent},
+      {path: 'lesson', component: LessonComponent},
+      {path: 'segnalation', component: ProfessorSegnalationComponent}
     ]},
   {path: '', component: LoginComponent},
   {path: '**', component: NotFoundComponent }

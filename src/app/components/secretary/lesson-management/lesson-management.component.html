@@ -6,7 +6,7 @@
         <mat-card-header class="card-header">
           <mat-card-title class="card-title">Orario del corso di</mat-card-title>
           <mat-form-field class="card-title-select">
-            <mat-select [(ngModel)]="selected">
+            <mat-select [(ngModel)]="selectedCourse" (selectionChange)="courseChange()">
               <mat-option *ngFor="let c of courses" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -24,8 +24,8 @@
                   [colspan]="tile.cols"
                   [rowspan]="tile.rows"
                   [style.background]="tile.color"
-                  (click)="openLessonDialog(tile)"
-                  type="button">
+                  (click)="!(tile.color == '#BBBBBB') && openLessonDialog(tile)"
+                  type="button" >
                     {{tile.text}}
                 </mat-grid-tile>
             </mat-grid-list>

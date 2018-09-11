@@ -1,0 +1,41 @@
+<div>
+  <div class="title">Esami</div>
+  <div class="container">
+    <div class="content">
+      <mat-card class="card" *ngFor="let c of courses">
+        <mat-card-header class="card-header">
+          <mat-card-title class="card-title">Orario del corso di {{c.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+
+          <table matSort class="full-lenght">
+            <tr class="header-row">
+              <th mat-sort-header="idExam" style="width: 10%">{{headers[0]}}</th>
+              <th mat-sort-header="teaching" style="width: 20%">{{headers[1]}}</th>
+              <th mat-sort-header="professor" style="width: 20%">{{headers[2]}}</th>
+              <th mat-sort-header="room"style="width: 15%">{{headers[3]}}</th>
+              <th mat-sort-header="date"style="width: 20%">{{headers[4]}}</th>
+              <th mat-sort-header="time"style="width: 15%">{{headers[5]}}</th>
+            </tr>
+            <div *ngFor="let item of exams" class="full-lenght">
+              <div *ngIf="c.id == item.teachingDTO.idCourse" class="row">
+                <td style="width: 10%">{{item.id}}</td>
+                <td style="width: 20%">{{item.teachingDTO.name}}</td>
+                <td style="width: 20%">{{item.teachingDTO.professorDTO.name}} {{item.teachingDTO.professorDTO.surname}}</td>
+                <td style="width: 15%">{{item.roomDTO.name}}</td>
+                <td style="width: 20%">{{item.date}}</td>
+                <td style="width: 15%">{{item.time}}</td>
+              </div>
+            </div>
+          </table>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button class="mright">RIMUOVI</button>
+          <button mat-raised-button (click)="openNewExamDialog(c.id)">AGGIUNGI</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

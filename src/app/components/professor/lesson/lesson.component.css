@@ -1,0 +1,31 @@
+.card {
+  max-width: 800px;
+  margin-bottom: 30px;
+}
+
+.table-header{
+  font-weight: 600;
+}
+
+.table-title{
+  line-height: 30px;
+  padding: 10px 20px 10px 30px;
+  font-size: 18px;
+  color: #777;
+}
+
+.rating{
+  padding-top: 10px;
+  padding-left: 50px;
+}
+
+.material-list {
+  padding-left: 10px;
+  padding-top:  0px;
+}
+
+.material-subheader{
+  padding-bottom: 0px;
+  margin: 0px;
+  height: 30px;
+}
