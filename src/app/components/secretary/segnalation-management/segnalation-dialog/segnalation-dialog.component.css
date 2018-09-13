@@ -1,0 +1,40 @@
+.segnalation-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  padding: 10px 0 10px 0;
+  margin-bottom: 10px;
+}
+
+.segnalation-radio-button {
+  margin: 5px;
+}
+
+.segnalation-selected-value {
+  margin: 15px 0;
+}
+
+.segnalation-radio-title{
+  padding-bottom: 10px;
+  font-size: 18px;
+  color: #6f6f6f;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  text-align: center;
+}
+
+.segnalation-error {
+  opacity: 0;
+  font-size: 85%;
+  margin-top: -35px;
+  padding-bottom: 20px;
+  transform: translateY(0px);
+  z-index: 1;
+}
+
+.segnalation-error-visible {
+  opacity: 1;
+  transition: ease-in-out 0.5s;
+  transform: translateY(20px);
+}

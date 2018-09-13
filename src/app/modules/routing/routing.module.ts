@@ -16,6 +16,7 @@ import {LessonComponent} from '../../components/professor/lesson/lesson.componen
 import {ProfessorSegnalationComponent} from '../../components/professor/professor-segnalation/professor-segnalation.component';
 import {CourseManagementComponent} from '../../components/secretary/course-management/course-management.component';
 import {ProfessorManagementComponent} from '../../components/secretary/professor-management/professor-management.component';
+import {SegnalationManagementComponent} from '../../components/secretary/segnalation-management/segnalation-management.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -29,7 +30,8 @@ const routes: Routes = [
       {path: 'student-management', component: StudentManagementComponent},
       {path: 'room-management', component: RoomManagementComponent},
       {path: 'lesson-management', component: LessonManagementComponent},
-      {path: 'exam-management', component: ExamManagementComponent}
+      {path: 'exam-management', component: ExamManagementComponent},
+      {path: 'segnalation-management', component: SegnalationManagementComponent}
     ]},
   {path: 'professor', component: HomeProfessorComponent, canActivate: [AuthProfessorGuard],
     children: [

@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RoutingModule} from './modules/routing/routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
+  MAT_DATE_LOCALE,
   MatAutocompleteModule,
   MatBadgeModule,
   MatBottomSheetModule,
@@ -55,14 +56,12 @@ import { HomeProfessorComponent } from './components/professor/home-professor/ho
 import { HomeDatailsComponent } from './components/common/home-datails/home-datails.component';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {CdkTableModule} from '@angular/cdk/table';
-import { ProfessorComponent } from './components/secretary/professor/professor.component';
 import { StudentManagementComponent} from './components/secretary/student-management/student-management.component';
 import { FormDialogComponent } from './components/common/form-dialog/form-dialog.component';
 import { ResponseDialogComponent } from './components/common/response-dialog/response-dialog.component';
 import { RoomManagementComponent } from './components/secretary/room-management/room-management.component';
 import { TeachingManagementComponent } from './components/secretary/teaching-management/teaching-management.component';
 import { LessonManagementComponent } from './components/secretary/lesson-management/lesson-management.component';
-import { LessonDialogComponent } from './components/secretary/lesson-dialog/lesson-dialog.component';
 import { ExamManagementComponent } from './components/secretary/exam-management/exam-management.component';
 import { LessonComponent } from './components/professor/lesson/lesson.component';
 import {StarRatingModule} from 'angular-star-rating';
@@ -71,6 +70,8 @@ import {AngularFileUploaderModule} from 'angular-file-uploader';
 import { ProfessorSegnalationComponent } from './components/professor/professor-segnalation/professor-segnalation.component';
 import { CourseManagementComponent } from './components/secretary/course-management/course-management.component';
 import { ProfessorManagementComponent } from './components/secretary/professor-management/professor-management.component';
+import { SegnalationManagementComponent } from './components/secretary/segnalation-management/segnalation-management.component';
+import { SegnalationDialogComponent } from './components/secretary/segnalation-management/segnalation-dialog/segnalation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -80,20 +81,20 @@ import { ProfessorManagementComponent } from './components/secretary/professor-m
     HomeSecretaryComponent,
     HomeProfessorComponent,
     HomeDatailsComponent,
-    ProfessorComponent,
     StudentManagementComponent,
     FormDialogComponent,
     ResponseDialogComponent,
     RoomManagementComponent,
     TeachingManagementComponent,
     LessonManagementComponent,
-    LessonDialogComponent,
     ExamManagementComponent,
     LessonComponent,
     AddMaterialDialogComponent,
     ProfessorSegnalationComponent,
     CourseManagementComponent,
-    ProfessorManagementComponent
+    ProfessorManagementComponent,
+    SegnalationManagementComponent,
+    SegnalationDialogComponent
   ],
   imports: [
     CdkTableModule,
@@ -149,8 +150,10 @@ import { ProfessorManagementComponent } from './components/secretary/professor-m
     StarRatingModule.forRoot(),
     AngularFileUploaderModule
   ],
-  entryComponents: [FormDialogComponent, ResponseDialogComponent, AddMaterialDialogComponent],
-  providers: [FirebaseService],
+  entryComponents: [FormDialogComponent, ResponseDialogComponent, AddMaterialDialogComponent, SegnalationDialogComponent],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
+    FirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

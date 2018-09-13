@@ -31,12 +31,26 @@ export class LessonRestService {
       "start": lesson.start,
       "end": lesson.end,
       "idTeaching": lesson.idTeaching,
-      "idRoom": lesson.idRoom
+      "idRoom": lesson.idRoom,
+      "date": lesson.date
     });
     return request;
   }
 
-  modify(lesson: Lesson) {
+  update(lesson: Lesson):Observable<Lesson> {
+    let request = this.http.post<Lesson>(this.apiUserUrl + "/update", {
+      "id": lesson.id,
+      "start": lesson.start,
+      "end": lesson.end,
+      "idTeaching": lesson.idTeaching,
+      "idRoom": lesson.idRoom,
+      "date": lesson.date
+    });
+    return request;
+  }
 
+  getByDateAndCourse(date,idCourse): Observable<Lesson[]>  {
+    let request = this.http.get<Lesson[]>(this.apiUserUrl + "/getByDate/"+date+"/"+idCourse);
+    return request;
   }
 }

@@ -3,12 +3,15 @@ import {Segnalation} from '../../../models/segnalation';
 import {SegnalationRestService} from '../../../services/segnalation-rest.service';
 import {Professor} from '../../../models/professor';
 import {Validators} from '@angular/forms';
-import {EMAIL_REGEX} from '../../../../Variable';
+import {EMAIL_REGEX, FAIL, NAME, SUCCESS} from '../../../../Variable';
 import {Room} from '../../../models/room';
 import {RoomRestService} from '../../../services/room-rest.service';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
 import {Teaching} from '../../../models/teaching';
+import {ResponseDialogComponent} from '../../common/response-dialog/response-dialog.component';
+import {DialogBuilder} from '../../../models/dialog-builder';
+import {Course} from '../../../models/course';
 
 @Component({
   selector: 'app-professor-segnalation',
@@ -27,6 +30,65 @@ export class ProfessorSegnalationComponent implements OnInit {
               private dialog: MatDialog) {
     this.professor = JSON.parse(localStorage.getItem('user'));
     console.log(this.professor.id);
+    this.reload();
+  }
+
+  openNewSegnalationDialog() {
+    const dialogRef = this.dialog.open(FormDialogComponent,this.configInsertDialog());
+    dialogRef.afterClosed().subscribe( (newInsertion: Segnalation) => {
+      if (newInsertion){
+        newInsertion.idState = 1;
+        newInsertion.idProfessor = this.professor.id;
+        console.log(newInsertion);
+        this.segnalationRestService.insert(newInsertion).subscribe( res => {
+          this.openResponseDialog("Corso", SUCCESS);
+          this.reload();
+        }, err => {
+          this.openResponseDialog("Corso", FAIL);
+        });
+      }
+    })
+  }
+
+  viewAllSegnalationRoom() {
+    const dialogRef = this.dialog.open(FormDialogComponent,this.configSelectRoom());
+    dialogRef.afterClosed().subscribe( (room: Room) => {
+      if (room){
+        this.getSegnalationByIdRoom(room.id);
+      }
+    })
+  }
+
+  viewAllMySegnalation() {
+    this.getSegnalationByIdProfessor();
+  }
+
+  openResponseDialog(name: string, res: number) {
+    const responseDialog = this.dialog.open(ResponseDialogComponent, this.configResponseDialog(name, res));
+  }
+
+  configResponseDialog(name: string, res: number) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addResponse(name,res);
+    return dialogBuilder.getConfigResponseDialog();
+  }
+
+  configInsertDialog() {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Inserisci Segnalazione");
+    dialogBuilder.addInput('text','','description','Descrizione problema',Validators.required);
+    dialogBuilder.addSelect('','idRoom',"Aula",Validators.required,this.rooms,NAME);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  configSelectRoom() {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Seleziona Aula");
+    dialogBuilder.addSelect('','id',"Aula",Validators.required,this.rooms,NAME);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  reload() {
     this.getSegnalationByIdProfessor();
     this.getAllRoom();
   }
@@ -52,96 +114,4 @@ export class ProfessorSegnalationComponent implements OnInit {
   ngOnInit() {
   }
 
-  openNewSegnalationDialog() {
-    console.log(this.segnalations);
-    this.initForm();
-    const dialogConfig = this.configDialog('Inserisci nuova segnalazione');
-    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( (res: any) => {
-      if (res){
-        var newSegnalation: Segnalation = {} as Segnalation;
-        newSegnalation.description = res.get("description").value;
-        newSegnalation.idState = 1;
-        newSegnalation.idProfessor = this.professor.id;
-        newSegnalation.idRoom = this.getIdByRoom(res.get("room").value);
-        console.log(newSegnalation);
-        this.segnalationRestService.insert(newSegnalation).subscribe( res => {
-          if(res){
-            console.log("ok");
-          }
-        });
-      }
-    })
-  }
-
-  initForm() {
-    this.formConfig = [
-      {
-        type: 'text',
-        name: 'description',
-        placeholder: 'Descrizione problema',
-        validators: Validators.required
-      },
-      {
-        type: 'select',
-        name: 'room',
-        placeholder: 'Aula',
-        validators: Validators.required,
-        options: []
-      }
-    ];
-    this.rooms.forEach(control => {
-      this.formConfig[1].options.unshift(control.name);
-    })
-  }
-
-  initFormRoom() {
-    this.formConfig = [
-      {
-        type: 'select',
-        name: 'room',
-        placeholder: 'Aula',
-        validators: Validators.required,
-        options: []
-      }
-    ];
-    this.rooms.forEach(control => {
-      this.formConfig[0].options.unshift(control.name);
-    })
-  }
-
-  configDialog(title: string) {
-    var dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title: title,
-      element: this.formConfig,
-    };
-    return dialogConfig;
-  }
-
-  getIdByRoom(name: string) {
-    var room: Room = this.rooms.find(function(item) {
-      return item.name == name;
-    });
-    return room.id;
-  }
-
-  viewAllSegnalationRoom() {
-    this.initFormRoom();
-    const dialogConfig = this.configDialog("Seleziona l'aula");
-    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( (res: any) => {
-      if (res){
-        var idRoom = this.getIdByRoom(res.get("room").value);
-        console.log(idRoom);
-        this.getSegnalationByIdRoom(idRoom);
-      }
-    })
-  }
-
-  viewAllMySegnalation() {
-    this.getSegnalationByIdProfessor();
-  }
 }

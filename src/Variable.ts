@@ -1,5 +1,6 @@
 export const ServerUrl = {
-  url: 'http://localhost:8080/SeApp'
+/*  url: 'http://localhost:8080/SeApp'*/
+  url: 'https://222puw9yn9.execute-api.us-east-2.amazonaws.com/app'
   //url: 'http://192.168.1.8:8080/SeApp'
 };
 
@@ -7,6 +8,7 @@ export const SUCCESS = 0;
 export const FAIL = 1;
 export const NAME = 0;
 export const NAME_SURNAME = 1;
+export const TIME = 2;
 
 export const Value = {
   student:1,

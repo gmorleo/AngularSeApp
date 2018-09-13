@@ -1,17 +1,28 @@
 import {MatDialogConfig} from '@angular/material';
-import {NAME, NAME_SURNAME, SUCCESS} from '../../Variable';
+import {NAME, NAME_SURNAME, SUCCESS, TIME} from '../../Variable';
 
 export class DialogBuilder {
 
   formConfig = [];
+  data = [];
+  value: number;
   title: String;
   res: number;
+
+  addData(data) {
+    this.data.push(data);
+  }
+
+  addValue(value: number) {
+    this.value = value;
+  }
 
   addTitle(title: string) {
     this.title = title;
   }
 
   addInput(type,value,name,placeholder,validators){
+    console.log(value);
     this.formConfig.push({
       type: type,
       value: value,
@@ -22,6 +33,10 @@ export class DialogBuilder {
   }
 
   addSelect(value,name,placeholder,validators,element,type){
+/*    if (!value){
+      value = '';
+    }*/
+    console.log(value);
     this.formConfig.push({
       type: "select",
       value: value,
@@ -30,10 +45,10 @@ export class DialogBuilder {
       validators: validators,
       options: []
     });
-    var index = (this.formConfig.length - 1)
+    var lenght = (this.formConfig.length - 1)
     if (type == NAME){
       element.forEach( control => {
-        this.formConfig[index].options.unshift({
+        this.formConfig[lenght].options.unshift({
           name: control.id,
           value: control.name
         });
@@ -41,11 +56,20 @@ export class DialogBuilder {
     }
     if (type == NAME_SURNAME) {
       element.forEach( control => {
-        this.formConfig[index].options.unshift({
+        this.formConfig[lenght].options.unshift({
           name: control.id,
           value: control.name + " " + control.surname
         });
       })
+    }
+    if (type == TIME) {
+      element.forEach((control,index) => {
+        this.formConfig[lenght].options.push({
+          name: control,
+          value: control + ' - ' + element[index+1]
+        });
+      })
+      this.formConfig[lenght].options.pop();
     }
     console.log(this.formConfig);
   }
@@ -77,6 +101,17 @@ export class DialogBuilder {
     dialogConfig.data = {
       title: this.title,
       response: this.res,
+    };
+    return dialogConfig;
+  }
+
+  getConfigSegnalationDialog() {
+    var dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: this.title,
+      value: this.value,
     };
     return dialogConfig;
   }

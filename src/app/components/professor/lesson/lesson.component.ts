@@ -8,6 +8,9 @@ import {MaterialRestService} from '../../../services/material-rest.service';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
 import {AddMaterialDialogComponent} from '../add-material-dialog/add-material-dialog.component';
+import {ReviewRestService} from '../../../services/review-rest.service';
+import {Review} from '../../../models/review';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-lesson',
@@ -20,17 +23,53 @@ export class LessonComponent implements OnInit {
   lessons: Lesson[];
   materials: Material[] = [];
   lesson = 0;
-  rating: number;
+  rating: number = 0;
+  ratingMaterial: number[] = [];
 
   constructor(private lessonRestService: LessonRestService,
               private materialRestService: MaterialRestService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private reviewRestService: ReviewRestService) {
     this.professor = JSON.parse(localStorage.getItem('user'));
     console.log(this.professor.id);
+    this.rating = 5;
   }
 
   ngOnInit() {
     this.getAllLessonById();
+  }
+
+
+  openLesson(i: number, id: number) {
+    this.lesson = i;
+    this.getMaterialByIdLesson(id);
+    this.getAllReviewBylessonId(id);
+  }
+
+  getAllReviewBylessonId(idLesson: number){
+    this.reviewRestService.getByIdLesson(idLesson).subscribe( data => {
+      var reviews: Review[] = data;
+      var rating = 0;
+      var n = reviews.length;
+      reviews.forEach( (control) =>{
+        rating = rating + control.rate
+      })
+      this.rating = rating/n;
+    })
+  }
+
+  getAllReviewByMaterialId(idMaterial: number, i: number){
+    this.reviewRestService.getByIdMaterial(idMaterial).subscribe( data => {
+      console.log(idMaterial);
+      console.log(data);
+      var reviews: Review[] = data;
+      var rating = 0;
+      var n = reviews.length;
+      reviews.forEach( (control) =>{
+        rating = rating + control.rate
+      })
+      this.ratingMaterial[i] = rating/n;
+    })
   }
 
   getAllLessonById() {
@@ -42,14 +81,12 @@ export class LessonComponent implements OnInit {
   getMaterialByIdLesson(id: number) {
     this.materialRestService.getByIdLesson(id).subscribe( data => {
       this.materials = data;
-      console.log(this.materials.length);
+      console.log(this.materials);
+      this.materials.forEach( (control, index) => {
+        this.getAllReviewByMaterialId(control.id,index);
+        console.log(index);
+      })
     })
-  }
-
-
-  openLesson(i: number, id: number) {
-    this.lesson = i;
-    this.getMaterialByIdLesson(id);
   }
 
   openNewMaterialDialog() {

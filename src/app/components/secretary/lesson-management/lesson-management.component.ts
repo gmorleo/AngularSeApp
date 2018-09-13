@@ -1,23 +1,27 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {LessonRestService} from '../../../services/lesson-rest.service';
 import {Lesson} from '../../../models/lesson';
 import {Course} from '../../../models/course';
 import {CourseRestService} from '../../../services/course-rest.service';
-import {DateAdapter, MatDialog, MatDialogConfig} from '@angular/material';
-import {stringify} from 'querystring';
-import {EMAIL_REGEX} from '../../../../Variable';
+import {DateAdapter, MatCalendar, MatDatepicker, MatDialog, MatDialogConfig} from '@angular/material';
 import {Validators} from '@angular/forms';
 import {Teaching} from '../../../models/teaching';
 import {TeachingRestService} from '../../../services/teaching-rest.service';
 import {Room} from '../../../models/room';
 import {RoomRestService} from '../../../services/room-rest.service';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
-import {identity} from 'rxjs';
+import {DialogBuilder} from '../../../models/dialog-builder';
+import {FAIL, NAME, SUCCESS, TIME} from '../../../../Variable';
+import {ResponseDialogComponent} from '../../common/response-dialog/response-dialog.component';
+import {Observable} from 'rxjs';
+import {Notification} from '../../../models/notification';
+import {NotificationRestService} from '../../../services/notification-rest.service';
+
 
 export interface Tile {
   start: string;
   end: string;
-  idLesson: number;
+  lesson: Lesson;
   color: string;
   cols: number;
   rows: number;
@@ -28,15 +32,15 @@ const MONTH = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Lu
   'Ottobre', 'Novembre', 'Dicembre'];
 
 const DAY = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+const TIME_SET = ['08:30','09:30','10:30','11:30','12:30','13:30','15:00','16:00','17:00','18:00'];
 
 @Component({
   selector: 'app-lesson-management',
   templateUrl: './lesson-management.component.html',
   styleUrls: ['./lesson-management.component.css']
 })
-export class LessonManagementComponent implements OnInit, AfterViewInit {
+export class LessonManagementComponent implements OnInit{
 
-  newLesson: Lesson;
   lessons: Lesson[];
   courses: Course[];
   teaching: Teaching[];
@@ -44,7 +48,6 @@ export class LessonManagementComponent implements OnInit, AfterViewInit {
   selectedCourse: number;
   selectedDate: Date;
   displayDate: string;
-  formConfig = [];
 
   tiles: Tile[] = [];
 
@@ -53,241 +56,217 @@ export class LessonManagementComponent implements OnInit, AfterViewInit {
               private teachingRestService: TeachingRestService,
               private lessonRestService: LessonRestService,
               private courseRestService: CourseRestService,
+              private notificationRestService: NotificationRestService,
               private dateAdapter: DateAdapter<Date>) {
     this.dateAdapter.setLocale('it');
-  }
-
-  ngOnInit() {
-    this.getAllLesson();
-    this.getAllTeaching();
-    this.getAllCourse();
-    this.getAllRoom();
+    this.selectedDate = this.dateAdapter.today();
+    this.reload();
   }
 
   openLessonDialog(tile: Tile){
-    const dialogConfig = this.configDialog(tile.start);
-    const dialogRef = this.dialog.open(FormDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( (res: any) => {
-      if(res) {
-        var newLesson: Lesson = {} as Lesson;
-        if (tile.idLesson) {
-          newLesson = this.lessons[tile.idLesson];
-          newLesson.idTeaching = res.get("teaching").value;
-          newLesson.idRoom = res.get("room").value;
-          console.log(newLesson);
-          this.lessonRestService.modify(newLesson);
-        }
-        newLesson.start = tile.start;
-        newLesson.end = tile.end;
-        newLesson.idTeaching = this.getIdByTeaching(res.get("teaching").value);
-        newLesson.idRoom = this.getIdByRoom(res.get("room").value);
-        newLesson.date = getFormattedDate(this.selectedDate,1);
-        console.log(newLesson);
-        this.lessonRestService.insert(newLesson).subscribe( res => {
-          console.log(res);
-          this.getAllLesson();
-        })
+    if (tile.lesson){
+      this.openModifyDialog(tile);
+    } else {
+      this.openInsertDialog(tile);
+    }
+  }
+
+
+  private openModifyDialog(tile: Tile) {
+    const dialogRef = this.dialog.open(FormDialogComponent, this.configModifyDialog(tile.start, tile.end, tile.lesson));
+    dialogRef.afterClosed().subscribe( (modifyInsertion: Lesson) => {
+      if(modifyInsertion) {
+        modifyInsertion.end = tile.end;
+        modifyInsertion.id = tile.lesson.id;
+        this.lessonRestService.update(modifyInsertion).subscribe( res => {
+          this.openResponseDialog("Orario", SUCCESS);
+          this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
+          this.reload();
+        }, err => {
+          this.openResponseDialog("Orario", FAIL);
+        });
       }
     });
   }
 
-  initTiles() {
-    this.tiles = [
-      {start: "08:30:00", end: "09:30:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '8.30-9.30',},
-      {start: "08:30:00", end: "09:30:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "09:30:00", end: "10:30:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '9.30-10.30',},
-      {start: "09:30:00", end: "10:30:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "10:30:00", end: "11:30:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '10.30-11.30',},
-      {start: "10:30:00", end: "11:30:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "11:30:00", end: "12:30:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '11.30-12.30',},
-      {start: "11:30:00", end: "12:30:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "12:30:00", end: "13:30:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '12.30-13.30',},
-      {start: "12:30:00", end: "13:30:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "", end: "09:30:00", idLesson: null, cols: 1, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "", end: "09:30:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "15:00:00", end: "16:00:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '15.00-16.00',},
-      {start: "15:00:00", end: "16:00:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "16:00:00", end: "17:00:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '16.00-17.00',},
-      {start: "16:00:00", end: "17:00:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "17:00:00", end: "18:00:00", idLesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '17.00-18.00',},
-      {start: "17:00:00", end: "18:00:00", idLesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-    ];
+  private openInsertDialog(tile: Tile) {
+    const dialogRef = this.dialog.open(FormDialogComponent, this.configInsertDialog(tile.start, tile.end));
+    dialogRef.afterClosed().subscribe( (newInsertion: Lesson) => {
+      if(newInsertion) {
+        newInsertion.start = tile.start
+        newInsertion.end = tile.end;
+        newInsertion.date = getFormattedDate(this.selectedDate,2)
+        console.log(newInsertion);
+        this.lessonRestService.insert(newInsertion).subscribe( res => {
+          this.openResponseDialog("Orario", SUCCESS);
+          this.reload();
+        }, err => {
+          console.log(err)
+          this.openResponseDialog("Orario", FAIL);
+        });
+      }
+    });
   }
 
-  setTiles(searchDate: string){
+  dateChange(date: Date){
+    this.selectedDate = date;
+    this.displayDate = getFormattedDate(date, 3);
+    this.setTiles(getFormattedDate(date,2));
+  }
+
+  setTiles(searchDate){
     this.initTiles();
-    this.lessons.forEach( (contol, index) => {
-      if (contol.date == searchDate && contol.teachingDTO.idCourse == this.selectedCourse) {
-        this.setLessonTile(contol, index);
-      }
-    })
+    this.getLessonByDateAndCourse(searchDate, this.selectedCourse).subscribe( data => {
+      data.forEach( (control, index) =>{
+        this.setLessonTile(control, index);
+      })
+      this.lessons = data;
+      console.log(this.lessons);
+    });
   }
 
   setLessonTile(lesson: Lesson, index: number) {
-    console.log(lesson.start);
     switch(lesson.start) {
       case "08:30:00":
         this.tiles[1].text = getFormattedLesson(lesson);
-        this.tiles[0].idLesson = index;
-        this.tiles[1].idLesson = index;
+        this.tiles[1].lesson = lesson;
         break;
       case "09:30:00":
         this.tiles[3].text = getFormattedLesson(lesson);
-        this.tiles[3].idLesson = index;
-        this.tiles[3].idLesson = index;
+        this.tiles[3].lesson = lesson;
         break;
       case "10:30:00":
         this.tiles[5].text = getFormattedLesson(lesson);
-        this.tiles[5].idLesson = index;
-        this.tiles[5].idLesson = index;
+        this.tiles[5].lesson = lesson;
         break;
       case "11:30:00":
         this.tiles[7].text = getFormattedLesson(lesson);
-        this.tiles[7].idLesson = index;
-        this.tiles[7].idLesson = index;
+        this.tiles[7].lesson = lesson;
         break;
       case "12:30:00":
         this.tiles[9].text = getFormattedLesson(lesson);
-        this.tiles[9].idLesson = index;
-        this.tiles[9].idLesson = index;
+        this.tiles[9].lesson = lesson;
         break;
       case "15:00:00":
         this.tiles[11].text = getFormattedLesson(lesson);
-        this.tiles[11].idLesson = index;
-        this.tiles[11].idLesson = index;
+        this.tiles[11].lesson = lesson;
         break;
       case "16:00:00":
         this.tiles[13].text = getFormattedLesson(lesson);
-        this.tiles[13].idLesson = index;
-        this.tiles[13].idLesson = index;
+        this.tiles[13].lesson = lesson;
         break;
       case "17:00:00":
         this.tiles[15].text = getFormattedLesson(lesson);
-        this.tiles[15].idLesson = index;
-        this.tiles[15].idLesson = index;
+        this.tiles[15].lesson = lesson;
         break;
       default:
         console.log("trovato nulla");
     }
   }
 
-  getIdByTeaching(name: string) {
-    var teaching: Teaching = this.teaching.find(function(item) {
-      return item.name == name;
-    });
-    return teaching.id;
-  }
-
-  getIdByRoom(name: string) {
-    var room: Room = this.rooms.find(function(item) {
-      return item.name == name;
-    });
-    return room.id;
-  }
-
-  dateChange(date: Date){
-    this.selectedDate = date;
-    this.displayDate = getFormattedDate(date, 2);
-    var searchDate = getFormattedDate(date,1);
-    this.setTiles(searchDate);
-  }
-
-
   courseChange() {
     this.dateChange(this.selectedDate);
+    this.getTeachingByCourse(this.selectedCourse);
   }
 
-  getAllLesson() {
-    this.lessonRestService.getAll().subscribe( data => {
-      this.lessons = data;
-      this.setAllLesson(data);
-    }, err => {
-      console.log(err)
-    });
+  openResponseDialog(name: string, res: number) {
+    const responseDialog = this.dialog.open(ResponseDialogComponent, this.configResponseDialog(name, res));
   }
 
-  getAllTeaching() {
-    this.teachingRestService.getAll().subscribe( data => {
-      this.setAllTeaching(data);
-    }, err => {
-      console.log(err)
+  configResponseDialog(name: string, res: number) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addResponse(name,res);
+    return dialogBuilder.getConfigResponseDialog();
+  }
+
+  configInsertDialog(start, end) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Lezione ore " + start + ' - ' + end);
+    dialogBuilder.addSelect('','idTeaching','Insegnamneto',Validators.required,this.teaching,NAME);
+    dialogBuilder.addSelect('','idRoom','Aula',Validators.required,this.rooms,NAME);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  configModifyDialog(start,end,lesson: Lesson) {
+    var dialogBuilder = new DialogBuilder();
+    dialogBuilder.addTitle("Lezione ore " + start + ' - ' + end);
+    dialogBuilder.addSelect(lesson.idTeaching,'idTeaching','Insegnamneto',Validators.required,this.teaching,NAME);
+    dialogBuilder.addSelect(lesson.idRoom,'idRoom','Aula',Validators.required,this.rooms,NAME);
+    dialogBuilder.addSelect(start,'start','Orario',Validators.required, TIME_SET, TIME);
+    dialogBuilder.addInput('date',lesson.date,'date','Data',Validators.required);
+    return dialogBuilder.getConfigInsertDialog();
+  }
+
+  sendNotification(idUser: number, title: string, body: string, data: string, teaching: string, idCourse: number){
+    let notification: Notification = {
+      type: 'modify-lesson',
+      idUser: idUser,
+      title: title,
+      body: body,
+      data: data,
+      token_topic: teaching.replace(/ /, '') + "_" + idCourse
+    }
+    console.log(notification);
+    this.notificationRestService.sendToTopic(notification).subscribe( res => {
+      console.log(res);
     })
   }
 
-  getAllCourse() {
+  reload(){
+    this.getAllCourseAndTeaching();
+    this.getAllRoom();
+  }
+
+  getLessonByDateAndCourse(date, idCourse): Observable<Lesson[]> {
+    return this.lessonRestService.getByDateAndCourse(date,idCourse);
+  }
+
+  getAllCourseAndTeaching() {
     this.courseRestService.getAll().subscribe( data => {
       this.courses = data;
       this.selectedCourse = this.courses[0].id;
-    }, err => {
-      console.log(err)
+      this.getTeachingByCourse(this.courses[0].id);
+      this.dateChange(this.selectedDate);
+    })
+  }
+
+  getTeachingByCourse(idCourse) {
+    this.teachingRestService.getByCourse(idCourse).subscribe(data => {
+      this.teaching = data;
     })
   }
 
   getAllRoom() {
     this.roomRestService.getAll().subscribe( data => {
       this.rooms = data;
-    }, err => {
-      console.log(err)
     })
   }
 
-  setAllRoom(rooms: Room[]){
-    this.rooms = rooms;
-  }
-
-  setAllTeaching(teaching: Teaching[]){
-    this.teaching = teaching;
-    console.log(this.teaching);
-  }
-
-  setAllLesson(lessons: Lesson[]){
-    this.lessons = lessons;
-  }
-
-  configDialog(time: string) {
-    this.initForm();
-/*    this.formConfig[0].value = teaching;
-    this.formConfig[1].value = room;*/
-    var dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title: 'Orario Lezione: ' + time,
-      element: this.formConfig,
-    };
-    return dialogConfig;
-  }
-
-  initForm() {
-    this.formConfig = [
-      {
-        value: '',
-        type: 'select',
-        name: 'teaching',
-        placeholder: 'Insegnamento',
-        validators: Validators.required,
-        options: []
-      },
-      {
-        value: '',
-        type: 'select',
-        name: 'room',
-        placeholder: 'Aula',
-        validators: Validators.required,
-        options: []
-      }
+  initTiles() {
+    this.tiles = [
+      {start: TIME_SET[0], end: TIME_SET[1], lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: TIME_SET[0]+' - '+TIME_SET[1]},
+      {start: "08:30", end: "09:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "09:30", end: "10:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '9.30-10.30',},
+      {start: "09:30", end: "10:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "10:30", end: "11:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '10.30-11.30',},
+      {start: "10:30", end: "11:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "11:30", end: "12:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '11.30-12.30',},
+      {start: "11:30", end: "12:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "12:30", end: "13:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '12.30-13.30',},
+      {start: "12:30", end: "13:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "", end: "", lesson: null, cols: 1, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "", end: "", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "15:00", end: "16:00", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '15.00-16.00',},
+      {start: "15:00", end: "16:00", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "16:00", end: "17:00", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '16.00-17.00',},
+      {start: "16:00", end: "17:00", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
+      {start: "17:00", end: "18:00", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '17.00-18.00',},
+      {start: "17:00", end: "18:00", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
     ];
-    this.teaching.forEach( control => {
-      this.formConfig[0].options.unshift(control.name);
-    });
-    this.rooms.forEach( control => {
-      this.formConfig[1].options.unshift(control.name);
-    });
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit() {
   }
-
 }
 
 function getFormattedLesson(lesson) {
@@ -302,9 +281,14 @@ function getFormattedDate(date, option) {
 
   var day = date.getDate().toString();
   day = day.length > 1 ? day : '0' + day;
+
   if (option == 1) {
     return day + '-' + month + '-' + year;
-  } else {
+  }
+  if (option == 2) {
+    return year + '-' + month + '-' + day;
+  }
+  if (option == 3) {
     return DAY[date.getDay()] + " " + date.getDate() + " " + MONTH[date.getMonth()] + " " + date.getFullYear();
   }
 

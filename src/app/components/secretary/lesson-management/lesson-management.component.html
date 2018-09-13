@@ -24,7 +24,7 @@
                   [colspan]="tile.cols"
                   [rowspan]="tile.rows"
                   [style.background]="tile.color"
-                  (click)="!(tile.color == '#BBBBBB') && openLessonDialog(tile)"
+                  (click)="!(tile.color == '#BBBBBB') && openLessonDialog(tile) && (tile.cols == 1)"
                   type="button" >
                     {{tile.text}}
                 </mat-grid-tile>

@@ -1,0 +1,23 @@
+<div style="max-width: 600px">
+  <h2 class="title">Modifica Segnalazione</h2>
+  <form [formGroup]="formGroup">
+    <div class="segnalation-radio-title">Seleziona stato segnalazione</div>
+    <mat-radio-group formControlName="idState" class="segnalation-radio-group">
+      <mat-radio-button class="segnalation-radio-button" [value]='state[0]'>Inviata</mat-radio-button>
+      <mat-radio-button class="segnalation-radio-button" [value]="state[1]">Accettata</mat-radio-button>
+      <mat-radio-button class="segnalation-radio-button" [value]="state[2]">Rifiutata</mat-radio-button>
+      <mat-radio-button class="segnalation-radio-button" [value]="state[3]">In elaborazione</mat-radio-button>
+      <mat-radio-button class="segnalation-radio-button" [value]="state[4]">Completata</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field class="full-lenght" style="z-index: 10">
+      <input matInput formControlName="note" placeholder="Nota" type="text">
+    </mat-form-field>
+    <div class="mat-error segnalation-error" [class.segnalation-error-visible]="(formGroup.get('idState').value == 3) && (formGroup.get('note').value.toString() == '')">
+      Selezionando "Rifiutata" è obligatorio inserire un commento
+    </div>
+  </form>
+  <mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">CHIUDI</button>
+    <button class="mat-raised-button mat-primary"(click)="save()" [disabled]="(formGroup.get('idState').value == 3) && (formGroup.get('note').value.toString() == '')">SALVA</button>
+  </mat-dialog-actions>
+</div>

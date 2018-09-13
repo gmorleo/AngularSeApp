@@ -37,4 +37,21 @@ export class SegnalationRestService {
     });
     return request;
   }
+
+  getAll(): Observable<Segnalation[]> {
+    let request = this.http.get<Segnalation[]>(this.apiUserUrl + "/getAll");
+    return request;
+  }
+
+  update(segnalation: Segnalation) {
+    let request = this.http.post<Segnalation>(this.apiUserUrl + "/update", {
+      "id": segnalation.id,
+      "note": segnalation.note,
+      "description": segnalation.description,
+      "idState": segnalation.idState,
+      "idProfessor": segnalation.idProfessor,
+      "idRoom": segnalation.idRoom
+    });
+    return request;
+  }
 }

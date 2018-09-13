@@ -1,10 +1,9 @@
 export interface Notification {
 
+  type:string;
   title:string;
   body:string;
   data:string;
-  type:string;
   idUser:number;
   token_topic:string;
-
 }

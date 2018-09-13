@@ -687,7 +687,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   padding: 5px;
   padding-top: 22px;
   color: #666;
-
+  font-weight: 600;
 }
 
 .cell {

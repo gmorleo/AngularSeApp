@@ -31,4 +31,8 @@ export class TeachingRestService {
     return request;
   }
 
+  getByCourse(idCourse: number) {
+    let request = this.http.get<Teaching[]>(this.apiUserUrl + "/getByIdCourse/"+idCourse);
+    return request;
+  }
 }

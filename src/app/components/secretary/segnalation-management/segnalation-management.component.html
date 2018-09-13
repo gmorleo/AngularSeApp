@@ -1,0 +1,106 @@
+<div>
+  <div class="title">Segnalazioni</div>
+  <div class="container">
+    <div class="content">
+
+      <mat-card class="card" >
+        <mat-card-header>
+          <mat-card-title>Elenco richieste da accettare</mat-card-title>
+        </mat-card-header>
+        <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+        <mat-card-content>
+
+          <div class="table full-lenght">
+            <div class="header-row full-lenght">
+              <div style="width: 10%">id</div>
+              <div style="width: 30%">Note</div>
+              <div style="width: 10%">Aula</div>
+              <div style="width: 15%">Professore</div>
+              <div style="width: 10%">Stato</div>
+              <div style="width: 25%">Descrizione</div>
+            </div>
+            <div *ngFor="let item of segnalations">
+              <div *ngIf="item.idState == 1" class="row full-lenght" (click)="openSegnalationDialog(item)" type="button" style="user-select: none; cursor: pointer">
+                <div style="width: 10%">{{item.id}}</div>
+                <div style="width: 30%">{{item.note}}</div>
+                <div style="width: 10%">{{item.roomDTO.name}}</div>
+                <div style="width: 15%">{{item.professorDTO.name}} {{item.professorDTO.surname}}</div>
+                <div style="width: 10%">{{item.segnalationStateDTO.state}}</div>
+                <div style="width: 25%">{{item.description}}</div>
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card" >
+        <mat-card-header>
+          <mat-card-title>Elenco richieste in elaborazione</mat-card-title>
+        </mat-card-header>
+        <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+        <mat-card-content>
+
+          <div class="table full-lenght">
+            <div class="header-row full-lenght">
+              <div style="width: 10%">id</div>
+              <div style="width: 30%">Note</div>
+              <div style="width: 10%">Aula</div>
+              <div style="width: 15%">Professore</div>
+              <div style="width: 10%">Stato</div>
+              <div style="width: 25%">Descrizione</div>
+            </div>
+            <div *ngFor="let item of segnalations">
+              <div *ngIf="item.idState == 2 || item.idState == 4" class="row full-lenght" (click)="openSegnalationDialog(item)" type="button" style="user-select: none; cursor: pointer">
+                <div style="width: 10%">{{item.id}}</div>
+                <div style="width: 30%">{{item.note}}</div>
+                <div style="width: 10%">{{item.roomDTO.name}}</div>
+                <div style="width: 15%">{{item.professorDTO.name}} {{item.professorDTO.surname}}</div>
+                <div style="width: 10%">{{item.segnalationStateDTO.state}}</div>
+                <div style="width: 25%">{{item.description}}</div>
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card" >
+        <mat-card-header>
+          <mat-card-title>Elenco richieste chiuse</mat-card-title>
+        </mat-card-header>
+        <mat-divider style="margin: 0 5px 0 5px;"></mat-divider>
+        <mat-card-content>
+
+          <div class="table full-lenght">
+            <div class="header-row full-lenght">
+              <div style="width: 10%">id</div>
+              <div style="width: 30%">Note</div>
+              <div style="width: 10%">Aula</div>
+              <div style="width: 15%">Professore</div>
+              <div style="width: 10%">Stato</div>
+              <div style="width: 25%">Descrizione</div>
+            </div>
+            <div *ngFor="let item of segnalations">
+              <div *ngIf="item.idState == 3 || item.idState == 5" class="row full-lenght" (click)="openSegnalationDialog(item)" type="button" style="user-select: none; cursor: pointer">
+                <div style="width: 10%">{{item.id}}</div>
+                <div style="width: 30%">{{item.note}}</div>
+                <div style="width: 10%">{{item.roomDTO.name}}</div>
+                <div style="width: 15%">{{item.professorDTO.name}} {{item.professorDTO.surname}}</div>
+                <div style="width: 10%">{{item.segnalationStateDTO.state}}</div>
+                <div style="width: 25%">{{item.description}}</div>
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
