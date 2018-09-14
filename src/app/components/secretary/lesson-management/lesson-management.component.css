@@ -46,6 +46,10 @@ agend-button {
   background:rgba(219,147,40,.5) !important;
 }
 
+.lesson-tile:hover {
+  background:rgba(219,147,40,.5) !important;
+}
+
 .agend-title{
   padding: 20px 10px 0 0;
 }

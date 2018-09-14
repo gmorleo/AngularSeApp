@@ -1,6 +1,6 @@
 export const ServerUrl = {
-/*  url: 'http://localhost:8080/SeApp'*/
-  url: 'https://222puw9yn9.execute-api.us-east-2.amazonaws.com/app'
+  url: 'http://localhost:8080/SeApp'
+/*  url: 'https://222puw9yn9.execute-api.us-east-2.amazonaws.com/app'*/
   //url: 'http://192.168.1.8:8080/SeApp'
 };
 

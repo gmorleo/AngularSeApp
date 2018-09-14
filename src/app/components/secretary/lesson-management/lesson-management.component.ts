@@ -18,7 +18,7 @@ import {Notification} from '../../../models/notification';
 import {NotificationRestService} from '../../../services/notification-rest.service';
 
 
-export interface Tile {
+/*export interface Tile {
   start: string;
   end: string;
   lesson: Lesson;
@@ -26,6 +26,16 @@ export interface Tile {
   cols: number;
   rows: number;
   text: string;
+}*/
+
+export interface Tile {
+  start: string;
+  end: string;
+  lesson: Lesson[];
+  color: string;
+  cols: number;
+  rows: number;
+  text: string[];
 }
 
 const MONTH = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre',
@@ -33,6 +43,7 @@ const MONTH = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Lu
 
 const DAY = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
 const TIME_SET = ['08:30','09:30','10:30','11:30','12:30','13:30','15:00','16:00','17:00','18:00'];
+const TIME_DB = ['08:30:00','09:30:00','10:30:00','11:30:00','12:30:00','13:30:00','15:00:00','16:00:00','17:00:00','18:00:00'];
 
 @Component({
   selector: 'app-lesson-management',
@@ -63,28 +74,27 @@ export class LessonManagementComponent implements OnInit{
     this.reload();
   }
 
-  openLessonDialog(tile: Tile){
-    if (tile.lesson){
-      this.openModifyDialog(tile);
-    } else {
-      this.openInsertDialog(tile);
-    }
-  }
-
-
-  private openModifyDialog(tile: Tile) {
-    const dialogRef = this.dialog.open(FormDialogComponent, this.configModifyDialog(tile.start, tile.end, tile.lesson));
+  private openModifyDialog(tile: Tile, index: number) {
+    console.log(index);
+    const dialogRef = this.dialog.open(FormDialogComponent, this.configModifyDialog(tile.start, tile.end, tile.lesson[index]));
     dialogRef.afterClosed().subscribe( (modifyInsertion: Lesson) => {
       if(modifyInsertion) {
         modifyInsertion.end = tile.end;
-        modifyInsertion.id = tile.lesson.id;
-        this.lessonRestService.update(modifyInsertion).subscribe( res => {
-          this.openResponseDialog("Orario", SUCCESS);
-          this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
-          this.reload();
-        }, err => {
-          this.openResponseDialog("Orario", FAIL);
-        });
+        modifyInsertion.id = tile.lesson[index].id;
+        this.roomRestService.checkDisponibility(modifyInsertion.date,modifyInsertion.start,modifyInsertion.idRoom).subscribe( res => {
+          if(res) {
+            this.lessonRestService.update(modifyInsertion).subscribe( res => {
+              this.openResponseDialog("Orario", SUCCESS);
+              this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
+              this.reload();
+            }, err => {
+              this.openResponseDialog("Orario", FAIL);
+            });
+          } else {
+            this.openResponseDialog("aula già occupata", FAIL);
+          }
+        })
+
       }
     });
   }
@@ -97,13 +107,20 @@ export class LessonManagementComponent implements OnInit{
         newInsertion.end = tile.end;
         newInsertion.date = getFormattedDate(this.selectedDate,2)
         console.log(newInsertion);
-        this.lessonRestService.insert(newInsertion).subscribe( res => {
-          this.openResponseDialog("Orario", SUCCESS);
-          this.reload();
-        }, err => {
-          console.log(err)
-          this.openResponseDialog("Orario", FAIL);
-        });
+        this.roomRestService.checkDisponibility(newInsertion.date,newInsertion.start,newInsertion.idRoom).subscribe( res => {
+          if (res) {
+            this.lessonRestService.insert(newInsertion).subscribe( res => {
+              this.openResponseDialog("Orario", SUCCESS);
+              this.reload();
+            }, err => {
+              console.log(err)
+              this.openResponseDialog("Orario", FAIL);
+            });
+          } else {
+            this.openResponseDialog("aula già occupata", FAIL);
+          }
+        })
+
       }
     });
   }
@@ -117,50 +134,24 @@ export class LessonManagementComponent implements OnInit{
   setTiles(searchDate){
     this.initTiles();
     this.getLessonByDateAndCourse(searchDate, this.selectedCourse).subscribe( data => {
-      data.forEach( (control, index) =>{
-        this.setLessonTile(control, index);
+      data.forEach( (control) =>{
+        this.setLessonTile(control);
       })
       this.lessons = data;
       console.log(this.lessons);
     });
   }
 
-  setLessonTile(lesson: Lesson, index: number) {
-    switch(lesson.start) {
-      case "08:30:00":
-        this.tiles[1].text = getFormattedLesson(lesson);
-        this.tiles[1].lesson = lesson;
-        break;
-      case "09:30:00":
-        this.tiles[3].text = getFormattedLesson(lesson);
-        this.tiles[3].lesson = lesson;
-        break;
-      case "10:30:00":
-        this.tiles[5].text = getFormattedLesson(lesson);
-        this.tiles[5].lesson = lesson;
-        break;
-      case "11:30:00":
-        this.tiles[7].text = getFormattedLesson(lesson);
-        this.tiles[7].lesson = lesson;
-        break;
-      case "12:30:00":
-        this.tiles[9].text = getFormattedLesson(lesson);
-        this.tiles[9].lesson = lesson;
-        break;
-      case "15:00:00":
-        this.tiles[11].text = getFormattedLesson(lesson);
-        this.tiles[11].lesson = lesson;
-        break;
-      case "16:00:00":
-        this.tiles[13].text = getFormattedLesson(lesson);
-        this.tiles[13].lesson = lesson;
-        break;
-      case "17:00:00":
-        this.tiles[15].text = getFormattedLesson(lesson);
-        this.tiles[15].lesson = lesson;
-        break;
-      default:
-        console.log("trovato nulla");
+  setLessonTile(lesson: Lesson) {
+    var i_start = TIME_DB.indexOf(lesson.start);
+    var i_end = TIME_DB.indexOf(lesson.end);
+    console.log(i_start+" "+i_end);
+    var pos = i_start + 1;
+    for (var i = i_start; i< i_end; i++){
+      console.log(i);
+      this.tiles[pos].text.push(getFormattedLesson(lesson));
+      this.tiles[pos].lesson.push(lesson);
+      pos = pos + 2;
     }
   }
 
@@ -243,26 +234,12 @@ export class LessonManagementComponent implements OnInit{
   }
 
   initTiles() {
-    this.tiles = [
-      {start: TIME_SET[0], end: TIME_SET[1], lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: TIME_SET[0]+' - '+TIME_SET[1]},
-      {start: "08:30", end: "09:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "09:30", end: "10:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '9.30-10.30',},
-      {start: "09:30", end: "10:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "10:30", end: "11:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '10.30-11.30',},
-      {start: "10:30", end: "11:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "11:30", end: "12:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '11.30-12.30',},
-      {start: "11:30", end: "12:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "12:30", end: "13:30", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '12.30-13.30',},
-      {start: "12:30", end: "13:30", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "", end: "", lesson: null, cols: 1, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "", end: "", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "15:00", end: "16:00", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '15.00-16.00',},
-      {start: "15:00", end: "16:00", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "16:00", end: "17:00", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '16.00-17.00',},
-      {start: "16:00", end: "17:00", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-      {start: "17:00", end: "18:00", lesson: null, cols: 1, rows: 1, color: '#f9aa33', text: '17.00-18.00',},
-      {start: "17:00", end: "18:00", lesson: null, cols: 3, rows: 1, color: '#FAFAFA', text: '',},
-    ];
+    this.tiles = [];
+    for(var i=0; i<=TIME_SET.length-2; i++){
+      this.tiles.push(
+        {start: TIME_SET[i], end: TIME_SET[i+1], lesson: [], cols: 1, rows: 1, color: '#f9aa33', text: [TIME_SET[i]+' - '+TIME_SET[i+1]]},
+        {start: TIME_SET[i], end: TIME_SET[i+1], lesson: [], cols: 3, rows: 1, color: '#FAFAFA', text: []},)
+    }
   }
 
   ngOnInit() {

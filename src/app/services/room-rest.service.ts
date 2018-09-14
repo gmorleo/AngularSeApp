@@ -4,6 +4,7 @@ import {ServerUrl} from '../../Variable';
 import {Observable} from 'rxjs';
 import {Student} from '../models/student';
 import {Room} from '../models/room';
+import {Lesson} from '../models/lesson';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,11 @@ export class RoomRestService {
       "latitude": room.latitude,
       "longitude": room.longitude
     });
+    return request;
+  }
+
+  checkDisponibility(date,start,id): Observable<boolean>{
+    let request = this.http.get<boolean>(this.apiUserUrl + "/checkDisponibility/"+date+"_"+id+"_"+start);
     return request;
   }
 

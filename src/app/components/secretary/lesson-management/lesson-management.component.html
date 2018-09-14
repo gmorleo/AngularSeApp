@@ -18,15 +18,19 @@
           </div>
           <div class="agend">
             <mat-card-title class="agend-title">{{displayDate}}</mat-card-title>
-            <mat-grid-list cols="4" rowHeight="60px">
+            <mat-grid-list cols="4" rowHeight="100px">
                 <mat-grid-tile style="user-select: none; cursor: pointer"
                   *ngFor="let tile of tiles"
                   [colspan]="tile.cols"
                   [rowspan]="tile.rows"
                   [style.background]="tile.color"
-                  (click)="!(tile.color == '#BBBBBB') && openLessonDialog(tile) && (tile.cols == 1)"
+                  (click)="(!(tile.color == '#BBBBBB') && (tile.lesson.length == 0) && openInsertDialog(tile)) "
                   type="button" >
-                    {{tile.text}}
+                  <div>
+                    <div *ngFor="let l of tile.text, let i = index" style="padding: 5px;" (click)="(tile.cols == 3) && openModifyDialog(tile,i)" class="lesson-tile">
+                      {{l}}
+                    </div>
+                  </div>
                 </mat-grid-tile>
             </mat-grid-list>
           </div>
