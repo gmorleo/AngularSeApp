@@ -9,6 +9,8 @@ export const FAIL = 1;
 export const NAME = 0;
 export const NAME_SURNAME = 1;
 export const TIME = 2;
+export const TIME_START = 3;
+export const TIME_END = 4;
 
 export const Value = {
   student:1,

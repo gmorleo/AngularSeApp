@@ -11,22 +11,11 @@ import {Room} from '../../../models/room';
 import {RoomRestService} from '../../../services/room-rest.service';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
 import {DialogBuilder} from '../../../models/dialog-builder';
-import {FAIL, NAME, SUCCESS, TIME} from '../../../../Variable';
+import {FAIL, NAME, SUCCESS, TIME, TIME_END, TIME_START} from '../../../../Variable';
 import {ResponseDialogComponent} from '../../common/response-dialog/response-dialog.component';
 import {Observable} from 'rxjs';
 import {Notification} from '../../../models/notification';
 import {NotificationRestService} from '../../../services/notification-rest.service';
-
-
-/*export interface Tile {
-  start: string;
-  end: string;
-  lesson: Lesson;
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}*/
 
 export interface Tile {
   start: string;
@@ -79,7 +68,6 @@ export class LessonManagementComponent implements OnInit{
     const dialogRef = this.dialog.open(FormDialogComponent, this.configModifyDialog(tile.start, tile.end, tile.lesson[index]));
     dialogRef.afterClosed().subscribe( (modifyInsertion: Lesson) => {
       if(modifyInsertion) {
-        modifyInsertion.end = tile.end;
         modifyInsertion.id = tile.lesson[index].id;
         this.roomRestService.checkDisponibility(modifyInsertion.date,modifyInsertion.start,modifyInsertion.idRoom).subscribe( res => {
           if(res) {
@@ -103,9 +91,7 @@ export class LessonManagementComponent implements OnInit{
     const dialogRef = this.dialog.open(FormDialogComponent, this.configInsertDialog(tile.start, tile.end));
     dialogRef.afterClosed().subscribe( (newInsertion: Lesson) => {
       if(newInsertion) {
-        newInsertion.start = tile.start
-        newInsertion.end = tile.end;
-        newInsertion.date = getFormattedDate(this.selectedDate,2)
+        newInsertion.date = getFormattedDate(this.selectedDate,"yyyy-MM-dd")
         console.log(newInsertion);
         this.roomRestService.checkDisponibility(newInsertion.date,newInsertion.start,newInsertion.idRoom).subscribe( res => {
           if (res) {
@@ -120,15 +106,19 @@ export class LessonManagementComponent implements OnInit{
             this.openResponseDialog("aula già occupata", FAIL);
           }
         })
-
       }
     });
   }
 
+  courseChange() {
+    this.dateChange(this.selectedDate);
+    this.getTeachingByCourse(this.selectedCourse);
+  }
+
   dateChange(date: Date){
     this.selectedDate = date;
-    this.displayDate = getFormattedDate(date, 3);
-    this.setTiles(getFormattedDate(date,2));
+    this.displayDate = getFormattedDate(date, "day dd month yyyy");
+    this.setTiles(getFormattedDate(date,"yyyy-MM-dd"));
   }
 
   setTiles(searchDate){
@@ -146,18 +136,13 @@ export class LessonManagementComponent implements OnInit{
     var i_start = TIME_DB.indexOf(lesson.start);
     var i_end = TIME_DB.indexOf(lesson.end);
     console.log(i_start+" "+i_end);
-    var pos = i_start + 1;
-    for (var i = i_start; i< i_end; i++){
+    var pos = (i_start*2)+1;
+    for (var i = i_start; i < i_end; i++){
       console.log(i);
       this.tiles[pos].text.push(getFormattedLesson(lesson));
       this.tiles[pos].lesson.push(lesson);
       pos = pos + 2;
     }
-  }
-
-  courseChange() {
-    this.dateChange(this.selectedDate);
-    this.getTeachingByCourse(this.selectedCourse);
   }
 
   openResponseDialog(name: string, res: number) {
@@ -172,9 +157,11 @@ export class LessonManagementComponent implements OnInit{
 
   configInsertDialog(start, end) {
     var dialogBuilder = new DialogBuilder();
-    dialogBuilder.addTitle("Lezione ore " + start + ' - ' + end);
+    dialogBuilder.addTitle("Lezione ore " + start);
     dialogBuilder.addSelect('','idTeaching','Insegnamneto',Validators.required,this.teaching,NAME);
     dialogBuilder.addSelect('','idRoom','Aula',Validators.required,this.rooms,NAME);
+    dialogBuilder.addSelect(start,'start','Orario Inizio',Validators.required,TIME_SET,TIME_START);
+    dialogBuilder.addSelect(end,'end','Orario Fine',Validators.required,TIME_SET,TIME_END);
     return dialogBuilder.getConfigInsertDialog();
   }
 
@@ -183,7 +170,8 @@ export class LessonManagementComponent implements OnInit{
     dialogBuilder.addTitle("Lezione ore " + start + ' - ' + end);
     dialogBuilder.addSelect(lesson.idTeaching,'idTeaching','Insegnamneto',Validators.required,this.teaching,NAME);
     dialogBuilder.addSelect(lesson.idRoom,'idRoom','Aula',Validators.required,this.rooms,NAME);
-    dialogBuilder.addSelect(start,'start','Orario',Validators.required, TIME_SET, TIME);
+    dialogBuilder.addSelect(start,'start','Orario Inizio',Validators.required,TIME_SET,TIME_START);
+    dialogBuilder.addSelect(end,'end','Orario Fine',Validators.required,TIME_SET,TIME_END);
     dialogBuilder.addInput('date',lesson.date,'date','Data',Validators.required);
     return dialogBuilder.getConfigInsertDialog();
   }
@@ -236,9 +224,16 @@ export class LessonManagementComponent implements OnInit{
   initTiles() {
     this.tiles = [];
     for(var i=0; i<=TIME_SET.length-2; i++){
-      this.tiles.push(
-        {start: TIME_SET[i], end: TIME_SET[i+1], lesson: [], cols: 1, rows: 1, color: '#f9aa33', text: [TIME_SET[i]+' - '+TIME_SET[i+1]]},
-        {start: TIME_SET[i], end: TIME_SET[i+1], lesson: [], cols: 3, rows: 1, color: '#FAFAFA', text: []},)
+      if(i == 5){
+        this.tiles.push(
+          {start: '', end: '', lesson: [], cols: 1, rows: 1, color: '#BBBBBB', text: []},
+          {start: '', end: '', lesson: [], cols: 3, rows: 1, color: '#BBBBBB', text: []})
+      } else {
+        this.tiles.push(
+          {start: TIME_SET[i], end: TIME_SET[i+1], lesson: [], cols: 1, rows: 1, color: '#f9aa33', text: [TIME_SET[i]+' - '+TIME_SET[i+1]]},
+          {start: TIME_SET[i], end: TIME_SET[i+1], lesson: [], cols: 3, rows: 1, color: '#FAFAFA', text: []})
+      }
+
     }
   }
 
@@ -259,13 +254,13 @@ function getFormattedDate(date, option) {
   var day = date.getDate().toString();
   day = day.length > 1 ? day : '0' + day;
 
-  if (option == 1) {
+  if (option == "dd-MM-yyyy") {
     return day + '-' + month + '-' + year;
   }
-  if (option == 2) {
+  if (option == "yyyy-MM-dd") {
     return year + '-' + month + '-' + day;
   }
-  if (option == 3) {
+  if (option == "day dd month yyyy") {
     return DAY[date.getDay()] + " " + date.getDate() + " " + MONTH[date.getMonth()] + " " + date.getFullYear();
   }
 

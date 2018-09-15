@@ -42,7 +42,7 @@ agend-button {
   cursor: pointer !important;
 }
 
-.mat-grid-tile:hover {
+.tile:hover {
   background:rgba(219,147,40,.5) !important;
 }
 

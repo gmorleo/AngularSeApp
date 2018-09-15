@@ -65,7 +65,7 @@ import { LessonManagementComponent } from './components/secretary/lesson-managem
 import { ExamManagementComponent } from './components/secretary/exam-management/exam-management.component';
 import { LessonComponent } from './components/professor/lesson/lesson.component';
 import {StarRatingModule} from 'angular-star-rating';
-import { AddMaterialDialogComponent } from './components/professor/add-material-dialog/add-material-dialog.component';
+import { AddMaterialDialogComponent } from './components/professor/lesson/add-material-dialog/add-material-dialog.component';
 import {AngularFileUploaderModule} from 'angular-file-uploader';
 import { ProfessorSegnalationComponent } from './components/professor/professor-segnalation/professor-segnalation.component';
 import { CourseManagementComponent } from './components/secretary/course-management/course-management.component';

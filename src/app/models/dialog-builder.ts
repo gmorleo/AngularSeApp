@@ -1,5 +1,5 @@
 import {MatDialogConfig} from '@angular/material';
-import {NAME, NAME_SURNAME, SUCCESS, TIME} from '../../Variable';
+import {NAME, NAME_SURNAME, SUCCESS, TIME, TIME_END, TIME_START} from '../../Variable';
 
 export class DialogBuilder {
 
@@ -62,7 +62,7 @@ export class DialogBuilder {
         });
       })
     }
-    if (type == TIME) {
+/*    if (type == TIME) {
       element.forEach((control,index) => {
         this.formConfig[lenght].options.push({
           name: control,
@@ -70,7 +70,26 @@ export class DialogBuilder {
         });
       })
       this.formConfig[lenght].options.pop();
+    }*/
+    if (type == TIME_START) {
+      element.forEach((control,index) => {
+        this.formConfig[lenght].options.push({
+          name: control,
+          value: control
+        });
+      })
+      this.formConfig[lenght].options.pop();
     }
+    if (type == TIME_END) {
+      element.forEach((control,index) => {
+        this.formConfig[lenght].options.push({
+          name: control,
+          value: control
+        });
+      })
+      this.formConfig[lenght].options.shift();
+    }
+
     console.log(this.formConfig);
   }
 

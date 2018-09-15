@@ -7,7 +7,7 @@ import {Material} from '../../../models/material';
 import {MaterialRestService} from '../../../services/material-rest.service';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
-import {AddMaterialDialogComponent} from '../add-material-dialog/add-material-dialog.component';
+import {AddMaterialDialogComponent} from './add-material-dialog/add-material-dialog.component';
 import {ReviewRestService} from '../../../services/review-rest.service';
 import {Review} from '../../../models/review';
 import {animate, style, transition, trigger} from '@angular/animations';

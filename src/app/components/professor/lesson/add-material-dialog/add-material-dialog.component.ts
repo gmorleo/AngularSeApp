@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Room} from '../../../models/room';
+import {Room} from '../../../../models/room';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Teaching} from '../../../models/teaching';
+import {Teaching} from '../../../../models/teaching';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
+import {FormDialogComponent} from '../../../common/form-dialog/form-dialog.component';
 import {MatFileUploadQueue} from 'angular-material-fileupload';
 
 @Component({

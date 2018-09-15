@@ -24,10 +24,14 @@
                   [colspan]="tile.cols"
                   [rowspan]="tile.rows"
                   [style.background]="tile.color"
-                  (click)="(!(tile.color == '#BBBBBB') && (tile.lesson.length == 0) && openInsertDialog(tile)) "
+                  (click)="(!(tile.color == '#BBBBBB') && (tile.lesson.length == 0) && openInsertDialog(tile))"
+                  [ngClass]="{'lesson-tile': !(tile.color == '#BBBBBB')}"
                   type="button" >
                   <div>
-                    <div *ngFor="let l of tile.text, let i = index" style="padding: 5px;" (click)="(tile.cols == 3) && openModifyDialog(tile,i)" class="lesson-tile">
+                    <div *ngFor="let l of tile.text, let i = index"
+                         style="padding: 5px;"
+                         (click)="(tile.cols == 3) && openModifyDialog(tile,i)"
+                         [ngClass]="{'lesson-tile': (tile.cols == 3)}">
                       {{l}}
                     </div>
                   </div>
