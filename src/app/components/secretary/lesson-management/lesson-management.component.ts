@@ -136,12 +136,14 @@ export class LessonManagementComponent implements OnInit{
     var i_start = TIME_DB.indexOf(lesson.start);
     var i_end = TIME_DB.indexOf(lesson.end);
     console.log(i_start+" "+i_end);
-    var pos = (i_start*2)+1;
-    for (var i = i_start; i < i_end; i++){
-      console.log(i);
-      this.tiles[pos].text.push(getFormattedLesson(lesson));
-      this.tiles[pos].lesson.push(lesson);
-      pos = pos + 2;
+    if( (i_start != -1) && (i_end != -1) ) {
+      var pos = (i_start*2)+1;
+      for (var i = i_start; i < i_end; i++){
+        console.log(i);
+        this.tiles[pos].text.push(getFormattedLesson(lesson));
+        this.tiles[pos].lesson.push(lesson);
+        pos = pos + 2;
+      }
     }
   }
 

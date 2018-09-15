@@ -6,11 +6,9 @@ import {Professor} from '../../../models/professor';
 import {Material} from '../../../models/material';
 import {MaterialRestService} from '../../../services/material-rest.service';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {FormDialogComponent} from '../../common/form-dialog/form-dialog.component';
-import {AddMaterialDialogComponent} from './add-material-dialog/add-material-dialog.component';
 import {ReviewRestService} from '../../../services/review-rest.service';
 import {Review} from '../../../models/review';
-import {animate, style, transition, trigger} from '@angular/animations';
+import {UploadDialogComponent} from './upload-dialog/upload-dialog.component';
 
 @Component({
   selector: 'app-lesson',
@@ -89,12 +87,20 @@ export class LessonComponent implements OnInit {
     })
   }
 
-  openNewMaterialDialog() {
+  openNewMaterialDialog(idLesson) {
     const dialogConfig = this.configDialog();
-    const dialogRef = this.dialog.open(AddMaterialDialogComponent,dialogConfig);
-    dialogRef.afterClosed().subscribe( res => {
-      if(res) {
-        console.log(res);
+    const dialogRef = this.dialog.open(UploadDialogComponent,dialogConfig);
+    dialogRef.afterClosed().subscribe( (newInsertion: Material) => {
+      if(newInsertion) {
+        var date: Date = new Date();
+        newInsertion.idLesson = idLesson;
+        newInsertion.idUserProf = this.professor.idUser;
+        newInsertion.date = getFormattedDate(date, "yyyy-MM-dd");
+        console.log(newInsertion);
+        this.materialRestService.save(newInsertion).subscribe( res => {
+          console.log(res);
+          this.getMaterialByIdLesson(idLesson);
+        })
       }
     })
   }
@@ -104,5 +110,18 @@ export class LessonComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     return dialogConfig;
+  }
+}
+function getFormattedDate(date, option) {
+  var year = date.getFullYear();
+
+  var month = (1 + date.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+
+  var day = date.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
+
+  if (option == "yyyy-MM-dd") {
+    return year + '-' + month + '-' + day;
   }
 }

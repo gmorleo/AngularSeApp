@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddMaterialDialogComponent } from './add-material-dialog.component';
+import { UploadDialogComponent } from './upload-dialog.component';
 
-describe('AddMaterialDialogComponent', () => {
-  let component: AddMaterialDialogComponent;
-  let fixture: ComponentFixture<AddMaterialDialogComponent>;
+describe('UploadDialogComponent', () => {
+  let component: UploadDialogComponent;
+  let fixture: ComponentFixture<UploadDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddMaterialDialogComponent ]
+      declarations: [ UploadDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddMaterialDialogComponent);
+    fixture = TestBed.createComponent(UploadDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

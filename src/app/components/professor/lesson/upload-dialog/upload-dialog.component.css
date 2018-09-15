@@ -1,0 +1,46 @@
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 200px;
+  border: 2px dashed #f9aa33;
+  background: white;
+  margin: 10px 0;
+  width: 500px;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  color: #666;
+}
+
+dropzone.hovering {
+  border: 2px solid #f16624;
+  color: #dadada !important;
+}
+
+progress::-webkit-progress-value {
+  transition: width 0.1s ease;
+}
+
+.file {
+  margin: auto 0 auto 0;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-title{
+  margin: auto 0 auto 0;
+  font-size: 18px;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  color: #666;
+  padding-right: 70px;
+}
+.file-container {
+  margin: 15px 0 15px 0;
+}

@@ -50,7 +50,7 @@ export class LessonRestService {
   }
 
   getByDateAndCourse(date,idCourse): Observable<Lesson[]>  {
-    let request = this.http.get<Lesson[]>(this.apiUserUrl + "/getByDate/"+date+"_"+idCourse);
+    let request = this.http.get<Lesson[]>(this.apiUserUrl + "/getByDate/"+date+"/"+idCourse);
     return request;
   }
 

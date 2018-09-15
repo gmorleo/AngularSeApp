@@ -65,13 +65,15 @@ import { LessonManagementComponent } from './components/secretary/lesson-managem
 import { ExamManagementComponent } from './components/secretary/exam-management/exam-management.component';
 import { LessonComponent } from './components/professor/lesson/lesson.component';
 import {StarRatingModule} from 'angular-star-rating';
-import { AddMaterialDialogComponent } from './components/professor/lesson/add-material-dialog/add-material-dialog.component';
-import {AngularFileUploaderModule} from 'angular-file-uploader';
 import { ProfessorSegnalationComponent } from './components/professor/professor-segnalation/professor-segnalation.component';
 import { CourseManagementComponent } from './components/secretary/course-management/course-management.component';
 import { ProfessorManagementComponent } from './components/secretary/professor-management/professor-management.component';
 import { SegnalationManagementComponent } from './components/secretary/segnalation-management/segnalation-management.component';
 import { SegnalationDialogComponent } from './components/secretary/segnalation-management/segnalation-dialog/segnalation-dialog.component';
+import {AngularFireStorageModule} from 'angularfire2/storage';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
+import { DropZoneDirective } from './directive/drop-zone.directive';
+import { UploadDialogComponent } from './components/professor/lesson/upload-dialog/upload-dialog.component';
 
 @NgModule({
   declarations: [
@@ -89,12 +91,13 @@ import { SegnalationDialogComponent } from './components/secretary/segnalation-m
     LessonManagementComponent,
     ExamManagementComponent,
     LessonComponent,
-    AddMaterialDialogComponent,
     ProfessorSegnalationComponent,
     CourseManagementComponent,
     ProfessorManagementComponent,
     SegnalationManagementComponent,
-    SegnalationDialogComponent
+    SegnalationDialogComponent,
+    DropZoneDirective,
+    UploadDialogComponent
   ],
   imports: [
     CdkTableModule,
@@ -146,11 +149,12 @@ import { SegnalationDialogComponent } from './components/secretary/segnalation-m
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
 
-    StarRatingModule.forRoot(),
-    AngularFileUploaderModule
+    StarRatingModule.forRoot()
   ],
-  entryComponents: [FormDialogComponent, ResponseDialogComponent, AddMaterialDialogComponent, SegnalationDialogComponent],
+  entryComponents: [FormDialogComponent, ResponseDialogComponent, UploadDialogComponent, SegnalationDialogComponent],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
     FirebaseService],

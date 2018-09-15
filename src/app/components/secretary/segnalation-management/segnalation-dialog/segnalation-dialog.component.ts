@@ -16,7 +16,7 @@ export class SegnalationDialogComponent implements OnInit {
   c = 1;
 
   constructor(private fb: FormBuilder,
-              private dialogRef: MatDialogRef<FormDialogComponent>,
+              private dialogRef: MatDialogRef<SegnalationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
     this.value = data.value;
     this.buildForm();

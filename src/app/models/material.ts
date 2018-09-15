@@ -2,11 +2,11 @@ import { Review} from "./review";
 
 export interface Material {
 
-  id: number;
+  id?: number;
   idLesson: number;
   link: string;
   name: string;
-  Review: Review;
+  Review?: Review;
   date: string;
   idUserProf: number;
 
