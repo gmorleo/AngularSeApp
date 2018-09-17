@@ -16,7 +16,7 @@ import {Material} from '../../../../models/material';
 })
 export class UploadDialogComponent implements OnInit {
 
-  formGroup: FormGroup;
+  name: string;
   // Main task
   task: AngularFireUploadTask;
 
@@ -35,7 +35,6 @@ export class UploadDialogComponent implements OnInit {
               private storage: AngularFireStorage, private db: AngularFirestore,
               private dialogRef: MatDialogRef<UploadDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
-    this.buildForm();
   }
 
   toggleHover(event: boolean) {
@@ -45,6 +44,7 @@ export class UploadDialogComponent implements OnInit {
   startUpload(event: FileList) {
     // The File object
     const file = event.item(0)
+    this.name = file.name;
 
     // Client-side validation example
 /*    if (file.type.split('/')[0] !== 'image') {
@@ -53,7 +53,8 @@ export class UploadDialogComponent implements OnInit {
     }*/
 
     // The storage path
-    const path = `test/${new Date().getTime()}_${file.name}`;
+/*    const path = `test/${new Date().getTime()}_${file.name}`;*/
+    const path = `${new Date().getTime()}_${file.name}`;
     const fileRef = this.storage.ref(path);
     console.log(path);
     console.log(fileRef);
@@ -87,19 +88,13 @@ export class UploadDialogComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
-  buildForm() {
-    this.formGroup = this.fb.group( {
-      'name': ['', Validators.required]
-    })
-  }
-
   save() {
+    console.log(this.name);
     this.downloadURL.subscribe( url => {
       var material: Material = {} as Material;
       console.log(url);
-      console.log(this.formGroup.get("name").value);
       material.link = url;
-      material.name = this.formGroup.get("name").value;
+      material.name = this.name;
       this.dialogRef.close(material);
     })
   }

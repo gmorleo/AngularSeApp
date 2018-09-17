@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ServerUrl} from '../../Variable';
-import {Lesson} from '../models/lesson';
 import {Observable} from 'rxjs';
 import {Material} from '../models/material';
-import {Notification} from '../models/notification';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +20,13 @@ export class MaterialRestService {
   }
 
   save(material: Material): Observable<Material> {
-    let request = this.http.post<Material>( this.apiUserUrl +"/save", {
+    let request = this.http.post<Material>(this.apiUserUrl + "/save", {
       "link": material.link,
       "name": material.name,
       "idLesson": material.idLesson,
       "idUserProf": material.idUserProf
     });
     return request;
+  }
 
 }
