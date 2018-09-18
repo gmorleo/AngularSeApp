@@ -185,7 +185,7 @@ export class LessonManagementComponent implements OnInit{
       title: title,
       body: body,
       data: data,
-      token_topic: teaching.replace(/ /, '') + "_" + idCourse
+      token_topic: teaching.replace(/ /g, '') + "_" + idCourse
     }
     console.log(notification);
     this.notificationRestService.sendToTopic(notification).subscribe( res => {
