@@ -38,7 +38,7 @@ export class StudentManagementComponent implements OnInit {
         this.firebaseService.registerNewUser(newInsertion.email,newInsertion.password).then( res => {
           if(res) {
             newInsertion.uid = res.user.uid;
-            newInsertion.id = idCourse;
+            newInsertion.idCourse = idCourse;
             this.studentRestService.insert(newInsertion).subscribe( res => {
               this.openResponseDialog("Studente", SUCCESS);
               this.reload();
