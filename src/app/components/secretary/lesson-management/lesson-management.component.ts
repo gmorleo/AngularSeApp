@@ -69,20 +69,29 @@ export class LessonManagementComponent implements OnInit{
     dialogRef.afterClosed().subscribe( (modifyInsertion: Lesson) => {
       if(modifyInsertion) {
         modifyInsertion.id = tile.lesson[index].id;
-        this.roomRestService.checkDisponibility(modifyInsertion.date,modifyInsertion.start,modifyInsertion.idRoom).subscribe( res => {
-          if(res) {
-            this.lessonRestService.update(modifyInsertion).subscribe( res => {
-              this.openResponseDialog("Orario", SUCCESS);
-              this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
-              this.reload();
-            }, err => {
-              this.openResponseDialog("Orario", FAIL);
-            });
-          } else {
-            this.openResponseDialog("aula già occupata", FAIL);
-          }
-        })
-
+        if(modifyInsertion.idRoom == tile.lesson[index].idRoom) {
+          this.lessonRestService.update(modifyInsertion).subscribe( res => {
+            this.openResponseDialog("Orario", SUCCESS);
+            this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
+            this.reload();
+          }, err => {
+            this.openResponseDialog("Orario", FAIL);
+          });
+        } else {
+          this.roomRestService.checkDisponibility(modifyInsertion.date,modifyInsertion.start,modifyInsertion.idRoom).subscribe( res => {
+            if(res) {
+              this.lessonRestService.update(modifyInsertion).subscribe( res => {
+                this.openResponseDialog("Orario", SUCCESS);
+                this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
+                this.reload();
+              }, err => {
+                this.openResponseDialog("Orario", FAIL);
+              });
+            } else {
+              this.openResponseDialog("aula già occupata", FAIL);
+            }
+          })
+        }
       }
     });
   }

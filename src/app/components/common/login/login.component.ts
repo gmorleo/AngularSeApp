@@ -57,7 +57,11 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['secretary'])
         }
       })
-      .catch( (err) => console.log('error: ' + err));
+      .catch( (err) => {
+        console.log('error: ' + err);
+        this.authFirebaseService.logOut();
+      });
+
   }
 
 }

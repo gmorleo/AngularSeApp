@@ -11,12 +11,15 @@ import {User} from '../../../models/user';
 export class HomeSecretaryComponent implements OnInit {
 
   user: User = {} as User;
+  showSpinner: boolean;
 
   constructor(private router: Router, private authFirebaseService: FirebaseService) {
+    this.showSpinner = true;
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit() {
+    this.showSpinner = false;
   }
 
   logOut() {

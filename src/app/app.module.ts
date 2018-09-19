@@ -74,6 +74,7 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import { DropZoneDirective } from './directive/drop-zone.directive';
 import { UploadDialogComponent } from './components/professor/lesson/upload-dialog/upload-dialog.component';
+import { SpinnerComponent } from './components/common/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { UploadDialogComponent } from './components/professor/lesson/upload-dial
     SegnalationManagementComponent,
     SegnalationDialogComponent,
     DropZoneDirective,
-    UploadDialogComponent
+    UploadDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     CdkTableModule,

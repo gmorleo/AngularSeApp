@@ -33,7 +33,7 @@ export class RoomRestService {
   }
 
   checkDisponibility(date,start,id): Observable<boolean>{
-    let request = this.http.get<boolean>(this.apiUserUrl + "/checkDisponibility/"+date+"/"+id+"/"+start);
+    let request = this.http.get<boolean>(this.apiUserUrl + "/checkDisponibility/"+date+"_"+id+"_"+start);
     return request;
   }
 

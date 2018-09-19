@@ -20,11 +20,13 @@ export class ProfessorManagementComponent implements OnInit {
 
   professors: Professor[];
   courses: Course[];
+  showSpinner: boolean;
 
   constructor(private professorRestService: ProfessorRestService,
               private courseRestService: CourseRestService,
               private firebaseService: FirebaseService,
               private dialog: MatDialog) {
+    this.showSpinner = true;
     this.reload();
   }
 
@@ -79,6 +81,7 @@ export class ProfessorManagementComponent implements OnInit {
   getAllProfessor() {
     this.professorRestService.getAll().subscribe( professors => {
       this.professors = professors;
+      this.showSpinner = false;
     })
   }
 
