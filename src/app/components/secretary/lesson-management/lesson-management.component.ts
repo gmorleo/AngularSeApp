@@ -65,16 +65,19 @@ export class LessonManagementComponent implements OnInit{
 
   private openModifyDialog(tile: Tile, index: number) {
     console.log(index);
-    const dialogRef = this.dialog.open(FormDialogComponent, this.configModifyDialog(tile.start, tile.end, tile.lesson[index]));
+    const dialogRef = this.dialog.open(FormDialogComponent, this.configModifyDialog(tile.lesson[index].start, tile.lesson[index].end, tile.lesson[index]));
     dialogRef.afterClosed().subscribe( (modifyInsertion: Lesson) => {
       if(modifyInsertion) {
         modifyInsertion.id = tile.lesson[index].id;
         if(modifyInsertion.idRoom == tile.lesson[index].idRoom) {
+          console.log(modifyInsertion.idRoom+" "+tile.lesson[index].idRoom);
+          console.log(modifyInsertion);
           this.lessonRestService.update(modifyInsertion).subscribe( res => {
             this.openResponseDialog("Orario", SUCCESS);
             this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
             this.reload();
           }, err => {
+            console.log(err);
             this.openResponseDialog("Orario", FAIL);
           });
         } else {
@@ -137,18 +140,15 @@ export class LessonManagementComponent implements OnInit{
         this.setLessonTile(control);
       })
       this.lessons = data;
-      console.log(this.lessons);
     });
   }
 
   setLessonTile(lesson: Lesson) {
     var i_start = TIME_DB.indexOf(lesson.start);
     var i_end = TIME_DB.indexOf(lesson.end);
-    console.log(i_start+" "+i_end);
     if( (i_start != -1) && (i_end != -1) ) {
       var pos = (i_start*2)+1;
       for (var i = i_start; i < i_end; i++){
-        console.log(i);
         this.tiles[pos].text.push(getFormattedLesson(lesson));
         this.tiles[pos].lesson.push(lesson);
         pos = pos + 2;
@@ -177,12 +177,15 @@ export class LessonManagementComponent implements OnInit{
   }
 
   configModifyDialog(start,end,lesson: Lesson) {
+    var s = start.slice(0, 5);
+    var e = end.slice(0,5);
+    console.log(s + " " + e);
     var dialogBuilder = new DialogBuilder();
     dialogBuilder.addTitle("Lezione ore " + start + ' - ' + end);
     dialogBuilder.addSelect(lesson.idTeaching,'idTeaching','Insegnamneto',Validators.required,this.teaching,NAME);
     dialogBuilder.addSelect(lesson.idRoom,'idRoom','Aula',Validators.required,this.rooms,NAME);
-    dialogBuilder.addSelect(start,'start','Orario Inizio',Validators.required,TIME_SET,TIME_START);
-    dialogBuilder.addSelect(end,'end','Orario Fine',Validators.required,TIME_SET,TIME_END);
+    dialogBuilder.addSelect(s,'start','Orario Inizio',Validators.required,TIME_SET,TIME_START);
+    dialogBuilder.addSelect(e,'end','Orario Fine',Validators.required,TIME_SET,TIME_END);
     dialogBuilder.addInput('date',lesson.date,'date','Data',Validators.required);
     return dialogBuilder.getConfigInsertDialog();
   }
