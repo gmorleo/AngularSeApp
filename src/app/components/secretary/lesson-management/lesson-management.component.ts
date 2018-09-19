@@ -59,6 +59,7 @@ export class LessonManagementComponent implements OnInit{
               private notificationRestService: NotificationRestService,
               private dateAdapter: DateAdapter<Date>) {
     this.dateAdapter.setLocale('it');
+    console.log(this.dateAdapter.getFirstDayOfWeek());
     this.selectedDate = this.dateAdapter.today();
     this.reload();
   }
@@ -70,26 +71,14 @@ export class LessonManagementComponent implements OnInit{
       if(modifyInsertion) {
         modifyInsertion.id = tile.lesson[index].id;
         if(modifyInsertion.idRoom == tile.lesson[index].idRoom) {
-          console.log(modifyInsertion.idRoom+" "+tile.lesson[index].idRoom);
           console.log(modifyInsertion);
-          this.lessonRestService.update(modifyInsertion).subscribe( res => {
-            this.openResponseDialog("Orario", SUCCESS);
-            this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
-            this.reload();
-          }, err => {
-            console.log(err);
-            this.openResponseDialog("Orario", FAIL);
-          });
+          this.updateLesson(modifyInsertion);
         } else {
-          this.roomRestService.checkDisponibility(modifyInsertion.date,modifyInsertion.start,modifyInsertion.idRoom).subscribe( res => {
+          console.log(modifyInsertion);
+          this.roomRestService.checkDisponibility(modifyInsertion.date,modifyInsertion.idRoom,modifyInsertion.start,modifyInsertion.end).subscribe( res => {
+            console.log(res);
             if(res) {
-              this.lessonRestService.update(modifyInsertion).subscribe( res => {
-                this.openResponseDialog("Orario", SUCCESS);
-                this.sendNotification(0,'Orario Modificato',"L'orario di una tua lezione è stato modificato","ciao",res.teachingDTO.name, res.teachingDTO.idCourse);
-                this.reload();
-              }, err => {
-                this.openResponseDialog("Orario", FAIL);
-              });
+              this.updateLesson(modifyInsertion);
             } else {
               this.openResponseDialog("aula già occupata", FAIL);
             }
@@ -105,20 +94,34 @@ export class LessonManagementComponent implements OnInit{
       if(newInsertion) {
         newInsertion.date = getFormattedDate(this.selectedDate,"yyyy-MM-dd")
         console.log(newInsertion);
-        this.roomRestService.checkDisponibility(newInsertion.date,newInsertion.start,newInsertion.idRoom).subscribe( res => {
+        this.roomRestService.checkDisponibility(newInsertion.date,newInsertion.idRoom,newInsertion.start,newInsertion.end).subscribe( res => {
           if (res) {
-            this.lessonRestService.insert(newInsertion).subscribe( res => {
-              this.openResponseDialog("Orario", SUCCESS);
-              this.reload();
-            }, err => {
-              console.log(err)
-              this.openResponseDialog("Orario", FAIL);
-            });
+            this.insertNewLesson(newInsertion);
           } else {
             this.openResponseDialog("aula già occupata", FAIL);
           }
         })
       }
+    });
+  }
+
+  updateLesson(modifyInsertion: Lesson) {
+    this.lessonRestService.update(modifyInsertion).subscribe( res => {
+      this.openResponseDialog("Orario", SUCCESS);
+      this.sendNotification(0,'Lezione modificata',"L'orario di una tua lezione è stato modificato",String(res.id),res.teachingDTO.name, res.teachingDTO.idCourse);
+      this.reload();
+    }, err => {
+      console.log(err);
+      this.openResponseDialog("lezione", FAIL);
+    });
+  }
+
+  insertNewLesson(newInsertion: Lesson) {
+    this.lessonRestService.insert(newInsertion).subscribe( res => {
+      this.openResponseDialog("lezione", SUCCESS);
+      this.reload();
+    }, err => {
+      this.openResponseDialog("Orario", FAIL);
     });
   }
 
@@ -179,7 +182,6 @@ export class LessonManagementComponent implements OnInit{
   configModifyDialog(start,end,lesson: Lesson) {
     var s = start.slice(0, 5);
     var e = end.slice(0,5);
-    console.log(s + " " + e);
     var dialogBuilder = new DialogBuilder();
     dialogBuilder.addTitle("Lezione ore " + start + ' - ' + end);
     dialogBuilder.addSelect(lesson.idTeaching,'idTeaching','Insegnamneto',Validators.required,this.teaching,NAME);

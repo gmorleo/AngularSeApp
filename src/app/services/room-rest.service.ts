@@ -32,8 +32,10 @@ export class RoomRestService {
     return request;
   }
 
-  checkDisponibility(date,start,id): Observable<boolean>{
-    let request = this.http.get<boolean>(this.apiUserUrl + "/checkDisponibility/"+date+"/"+id+"/"+start);
+  checkDisponibility(date,id,start,end): Observable<boolean>{
+    console.log(end);
+    console.log(this.apiUserUrl + "/checkDisponibility/"+date+"/"+id+"/"+start+"/"+end);
+    let request = this.http.get<boolean>(this.apiUserUrl + "/checkDisponibility/"+date+"/"+id+"/"+start+"/"+end);
     return request;
   }
 
