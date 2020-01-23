@@ -1,4 +1,13 @@
-# AngularSeApp
+# Software Engineering project - Front end
+
+This project has been realized for the Software Engineering exam for the Computer Engineering course of the University of Salento.
+
+# Authors
+
+* **Giuseppe Morleo**,  University of Salento, Italy
+* **Antonio Mariani**, University of Salento, Italy
+
+## Angular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
