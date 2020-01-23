@@ -2,6 +2,10 @@
 
 This project has been realized for the Software Engineering exam for the Computer Engineering course of the University of Salento.
 
+[Back end](https://github.com/anto6715/SeApp)
+
+[Mobile app](https://github.com/anto6715/IonicSeApp)
+
 # Authors
 
 * **Giuseppe Morleo**,  University of Salento, Italy
